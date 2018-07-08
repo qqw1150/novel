@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luowenit.domain.mapper.FictionMapper">
+    <insert id="addOne" parameterType="Fiction" useGeneratedKeys="true" keyProperty="id">
+      INSERT INTO fiction(author,cover,intro,size,`level`,uptime,type,`status`,clicks,downUrl,title) VALUES(#{author},#{cover},#{intro},#{size},#{level},#{uptime},#{type},#{status},#{clicks},#{downUrl},#{title})
+    </insert>
+
+    <insert id="addMore" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO fiction(author,cover,intro,size,`level`,uptime,type,`status`,clicks,downUrl,title) VALUES
+        <foreach item="item" index="index" collection="list" separator=",">
+            (#{item.author},#{item.cover},#{item.intro},#{item.size},#{item.level},#{item.uptime},#{item.type},#{item.status},#{item.clicks},#{item.downUrl},#{item.title})
+        </foreach>
+    </insert>
+    
+    <select id="getLatests" parameterType="int" resultType="Fiction" useCache="true">
+        SELECT * FROM fiction ORDER BY uptime DESC LIMIT #{count}
+    </select>
+
+    <select id="getHots" resultType="Fiction" useCache="true" parameterType="int">
+        SELECT id,cover,title,intro,author,type FROM fiction ORDER BY `level` DESC,clicks DESC LIMIT #{count}
+    </select>
+
+    <select id="getTypesHots" resultType="Fiction" useCache="true" parameterType="hashmap">
+        SELECT id,cover,title,intro,type,status,author FROM fiction
+        <if test="type != null">
+            WHERE type = #{type}
+        </if>
+        ORDER BY `level` DESC,clicks DESC LIMIT #{pager.index},#{pager.size}
+    </select>
+
+    <select id="getSortedByDate" resultType="Fiction" useCache="true" parameterType="hashmap">
+        SELECT id,cover,title,type,author FROM fiction
+        <if test="period != 0">
+            WHERE uptime BETWEEN DATE_SUB(now(),INTERVAL ${period} SECOND) AND now()
+        </if>
+        ORDER BY `level` DESC,clicks DESC
+        <if test="count != 0">
+            LIMIT #{count}
+        </if>
+    </select>
+    
+    <select id="getTypeByCondition" parameterType="hashmap" useCache="true" resultType="Fiction">
+        SELECT id,cover,title,author,type,`status`,intro FROM fiction
+        <if test="type != null">
+            WHERE type = #{type}
+        </if>
+        ORDER BY `level` DESC,clicks DESC
+        <if test="pager != null">
+            LIMIT #{pager.index},#{pager.size}
+        </if>
+    </select>
+
+    <select id="getTotalByType" parameterType="hashmap" useCache="true" resultType="int">
+        SELECT count(id) FROM fiction
+        <if test="type != null">
+            WHERE type = #{type}
+        </if>
+    </select>
+
+    <select id="getStatusByCondition" parameterType="hashmap" useCache="true" resultType="Fiction">
+        SELECT id,cover,title,author,type,`status`,intro FROM fiction
+        <if test="status != null">
+            WHERE `status` = #{status}
+        </if>
+        ORDER BY `level` DESC,clicks DESC
+        <if test="pager != null">
+            LIMIT #{pager.index},#{pager.size}
+        </if>
+    </select>
+
+    <select id="getTotalByStatus" parameterType="hashmap" useCache="true" resultType="int">
+        SELECT count(id) FROM fiction
+        <if test="status != null">
+            WHERE status = #{status}
+        </if>
+    </select>
+
+    <select id="getTypeStatusByCondition" parameterType="hashmap" useCache="true" resultType="Fiction">
+        SELECT id,cover,title,author,type,`status`,intro FROM fiction
+        <where>
+            <if test="type != null">
+                type = #{type}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+        ORDER BY `level` DESC,clicks DESC
+        <if test="pager != null">
+            LIMIT #{pager.index},#{pager.size}
+        </if>
+    </select>
+
+    <select id="getTotalByTypeStatus" parameterType="hashmap" useCache="true" resultType="int">
+        SELECT count(id) FROM fiction
+        <where>
+            <if test="type != null">
+                type = #{type}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <select id="getOne" parameterType="hashmap" useCache="true" resultMap="fictionWithChapter">
+        SELECT
+        f.id as f_id,f.title as f_title,f.cover as f_cover,f.intro as f_intro,f.type as f_type,f.status as f_status,f.author as f_author,
+        f.downUrl as f_downUrl,c.id as c_id,c.name as c_name,c.number as c_number,c.content as c_content
+        FROM fiction as f LEFT JOIN chapter as c ON f.id = c.fiction_id WHERE f.id = #{id}
+        <choose>
+            <when test="orderBy == 1">
+                ORDER BY c.number ASC
+            </when>
+            <otherwise>
+                ORDER BY c.number DESC
+            </otherwise>
+        </choose>
+        <if test="pager != null">
+            LIMIT #{pager.index},#{pager.size}
+        </if>
+    </select>
+
+    <resultMap id="fictionWithChapter" type="Fiction">
+        <id property="id" column="f_id"></id>
+        <result property="title" column="f_title"></result>
+        <result property="cover" column="f_cover"></result>
+        <result property="intro" column="f_intro"></result>
+        <result property="type" column="f_type"></result>
+        <result property="status" column="f_status"></result>
+        <result property="author" column="f_author"></result>
+        <result property="downUrl" column="f_downUrl"></result>
+        <collection property="chapters" javaType="java.util.List" ofType="Chapter">
+            <id property="id" column="c_id"></id>
+            <result property="name" column="c_name"></result>
+            <result property="number" column="c_number"></result>
+            <result property="content" column="c_content"></result>
+        </collection>
+    </resultMap>
+
+    <select id="getOneLazy" resultType="Fiction" useCache="true" parameterType="int">
+        SELECT * FROM fiction WHERE id = #{id}
+    </select>
+    
+    <delete id="deleteOne" parameterType="int" flushCache="true">
+        DELETE FROM fiction WHERE id = #{id}
+    </delete>
+
+    <select id="getMoreByTitle" resultType="Fiction" useCache="true" parameterType="hashmap">
+        SELECT id,cover,title,author,type,`status`,intro,uptime FROM fiction
+        WHERE title LIKE #{title}
+        ORDER BY `level` DESC,clicks DESC
+        <if test="pager != null">
+            LIMIT #{pager.index},#{pager.size}
+        </if>
+    </select>
+
+    <select id="getTotalByTitle" parameterType="hashmap" useCache="true" resultType="int">
+        SELECT count(id) FROM fiction WHERE title LIKE #{title}
+    </select>
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 3.0//EN" "http://tuckey.org/res/dtds/urlrewrite3.0.dtd">
+<urlrewrite>
+    <rule>
+        <from>^/(\w+).html</from>
+        <to type="forward">/$1.do</to>
+    </rule>
+    <rule>
+        <from>^/(\d+)/(\d+)/(\d+)/type.html</from>
+        <to type="forward">/$1/$2/$3/type.do</to>
+    </rule>
+    <rule>
+        <from>^/(\d+)/(\d+)/(\d+)/js_type.html</from>
+        <to type="forward">/$1/$2/$3/js_type.do</to>
+    </rule>
+    <rule>
+        <from>^/(\d+)/(\d+)/(\d+)/fiction.html</from>
+        <to type="forward">/$1/$2/$3/fiction.do</to>
+    </rule>
+    <rule>
+        <from>^/(\d+)/(\d+)/(\d+)/m_fiction.html</from>
+        <to type="forward">/$1/$2/$3/m_fiction.do</to>
+    </rule>
+    <rule>
+        <from>^/(\d+)/(\d+)/chapter.html</from>
+        <to type="forward">/$1/$2/chapter.do</to>
+    </rule>
+    <rule>
+        <from>^/(\d+)/search.html(.*?)</from>
+        <to type="forward">/$1/search.do</to>
+    </rule>
+</urlrewrite>

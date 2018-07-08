@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luowenit.domain.mapper.ChapterMapper">
+    <insert id="addOne" parameterType="Chapter" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO chapter(`name`,content,`number`,fiction_id) VALUES (#{name},#{content},#{number},#{fiction.id});
+    </insert>
+
+    <insert id="addMore" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO chapter(`name`,content,`number`,fiction_id) VALUES
+        <foreach item="item" index="index" collection="list" separator=",">
+            (#{item.name},#{item.content},#{item.number},#{item.fiction.id})
+        </foreach>
+    </insert>
+
+    <select id="getOne" parameterType="hashmap" useCache="true" resultMap="chapterWithFiction">
+        SELECT
+        f.id as f_id,f.title as f_title,f.cover as f_cover,f.intro as f_intro,f.type as f_type,f.status as f_status,f.author as f_author,
+        f.downUrl as f_downUrl,c.id as c_id,c.name as c_name,c.number as c_number,c.content as c_content,c.fiction_id as c_fiction_id
+        FROM chapter as c LEFT JOIN fiction as f ON f.id = c.fiction_id  WHERE `number` = #{number} AND fiction_id = #{fiction_id}
+    </select>
+
+    <resultMap id="chapterWithFiction" type="Chapter">
+        <id property="id" column="c_id"></id>
+        <result property="name" column="c_name"></result>
+        <result property="number" column="c_number"></result>
+        <result property="content" column="c_content"></result>
+        <result property="fiction_id" column="c_fiction_id"></result>
+        <association property="fiction" javaType="Fiction">
+            <id property="id" column="f_id"></id>
+            <result property="title" column="f_title"></result>
+            <result property="cover" column="f_cover"></result>
+            <result property="intro" column="f_intro"></result>
+            <result property="type" column="f_type"></result>
+            <result property="status" column="f_status"></result>
+            <result property="author" column="f_author"></result>
+            <result property="downUrl" column="f_downUrl"></result>
+        </association>
+    </resultMap>
+
+    <delete id="deleteMoreByFid" flushCache="true" parameterType="int">
+        DELETE FROM chapter WHERE fiction_id = #{fiction_id}
+    </delete>
+
+    <select id="getLatests" resultMap="Latests" useCache="true" parameterType="java.util.List">
+        SELECT * FROM (SELECT id,`name`,fiction_id,`number` FROM chapter WHERE fiction_id IN
+        <foreach item="item" index="index" collection="list" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+        ORDER BY `number` desc) as t GROUP BY fiction_id;
+    </select>
+
+    <resultMap id="Latests" type="Chapter">
+        <id property="id" column="id"></id>
+        <result property="name" column="name"></result>
+        <result property="number" column="number"></result>
+        <association property="fiction" javaType="Fiction">
+            <id property="id" column="fiction_id"></id>
+        </association>
+    </resultMap>
+
+    <select id="getTotalByFiction" parameterType="int" resultType="int" useCache="true">
+        SELECT count(id) FROM chapter WHERE fiction_id = #{fiction_id}
+    </select>
+
+    <select id="getOneLazy" parameterType="hashmap" resultType="Chapter" useCache="true">
+        SELECT * FROM chapter WHERE `number` = #{number} AND fiction_id = #{fiction_id}
+    </select>
+</mapper>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="db.properties"></properties>
+    <settings>
+        <setting name="logImpl" value="LOG4J"/>
+    </settings>
+    <typeAliases>
+        <typeAlias type="com.luowenit.domain.Fiction" alias="Fiction"/>
+        <typeAlias type="com.luowenit.domain.Chapter" alias="Chapter"/>
+        <typeAlias type="com.luowenit.domain.assist.FictionStatus" alias="FictionStatus"/>
+        <typeAlias type="com.luowenit.domain.assist.FictionType" alias="FictionType"/>
+        <typeAlias type="com.luowenit.domain.assist.Size" alias="Size"/>
+        <typeAlias type="com.luowenit.domain.assist.ReadStatus" alias="ReadStatus"/>
+        <typeAlias type="com.luowenit.domain.User" alias="User"/>
+    </typeAliases>
+    <typeHandlers>
+        <typeHandler handler="com.luowenit.domain.type.FictionStatusHandler" javaType="FictionStatus" jdbcType="TINYINT"/>
+        <typeHandler handler="com.luowenit.domain.type.ReadStatusHandler" javaType="ReadStatus" jdbcType="TINYINT"/>
+        <typeHandler handler="com.luowenit.domain.type.FictionTypeHandler" javaType="FictionType" jdbcType="TINYINT"/>
+        <typeHandler handler="com.luowenit.domain.type.SizeTypeHandler" javaType="Size" jdbcType="BIGINT"/>
+    </typeHandlers>
+
+    <mappers>
+        <mapper resource="mapper/FictionMapper.xml"/>
+        <mapper resource="mapper/ChapterMapper.xml"/>
+        <mapper resource="mapper/UserMapper.xml"/>
+    </mappers>
+</configuration>

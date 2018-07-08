@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luowenit.domain.mapper.UserMapper">
+   <insert id="addOne" parameterType="User" flushCache="true" useGeneratedKeys="true" keyProperty="id">
+       INSERT INTO user(username, password, icon) VALUES (#{username},password(#{password}),"/image/account.1e031.png")
+   </insert>
+
+    <select id="login" parameterType="User" useCache="false" resultType="User">
+        SELECT * FROM user WHERE username = #{username} AND password = password(#{password});
+    </select>
+</mapper>
