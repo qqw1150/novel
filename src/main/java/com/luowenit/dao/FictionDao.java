@@ -7,7 +7,6 @@ import com.luowenit.domain.assist.Pager;
 import com.luowenit.domain.mapper.FictionMapper;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -74,23 +73,6 @@ public class FictionDao {
         return fictions;
     }
 
-    /**
-     * 获取各日期的排行榜
-     * @param period
-     * @param count
-     * @return
-     */
-    public List<Fiction> getSortedByDate(int period, int count) {
-        SqlSession session = factory.openSession();
-        FictionMapper mapper = session.getMapper(FictionMapper.class);
-        Map<String, Object> params = new HashMap<>();
-        params.put("period", period);
-        params.put("count", count);
-        List<Fiction> fictions = mapper.getSortedByDate(params);
-        session.commit();
-        session.close();
-        return fictions;
-    }
 
     /**
      * 最近更新

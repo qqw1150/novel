@@ -37,11 +37,17 @@
         <div class="module" style="margin: 0px;">
             <div class="module-slide">
                 <ol class="module-slide-ol" style="min-height:auto;" role="listbox" title="水平列表，可以水平滚动">
-                    <core:forEach items="${FictionType.getAllType()}" var="type">
-                        <li class="module-slide-li">
-                            <a href="/${type.index}/0/1/type.html" class="module-slide-a"><p class="module-slide-author" style="font-size: 0.95rem;">${type.name}</p></a>
-                        </li>
-                    </core:forEach>
+                    <%--<core:forEach items="${FictionType.getAllType()}" var="type">
+                        <li class="module-slide-li"><a href="/${type.index}/0/1/type.html" class="module-slide-a"><p class="module-slide-author" style="font-size: 0.95rem;">${type.name}</p></a></li>
+                    </core:forEach>--%>
+                    <li class="module-slide-li"><a href="/1/0/1/type.html" class="module-slide-a"><p class="module-slide-author" style="font-size: 0.95rem;">玄幻奇幻</p></a></li>
+                    <li class="module-slide-li"><a href="/2/0/1/type.html" class="module-slide-a"><p class="module-slide-author" style="font-size: 0.95rem;">武侠仙侠</p></a></li>
+                    <li class="module-slide-li"><a href="/3/0/1/type.html" class="module-slide-a"><p class="module-slide-author" style="font-size: 0.95rem;">女频言情</p></a></li>
+                    <li class="module-slide-li"><a href="/4/0/1/type.html" class="module-slide-a"><p class="module-slide-author" style="font-size: 0.95rem;">现代都市</p></a></li>
+                    <li class="module-slide-li"><a href="/5/0/1/type.html" class="module-slide-a"><p class="module-slide-author" style="font-size: 0.95rem;">历史军事</p></a></li>
+                    <li class="module-slide-li"><a href="/6/0/1/type.html" class="module-slide-a"><p class="module-slide-author" style="font-size: 0.95rem;">游戏竞技</p></a></li>
+                    <li class="module-slide-li"><a href="/7/0/1/type.html" class="module-slide-a"><p class="module-slide-author" style="font-size: 0.95rem;">科幻灵异</p></a></li>
+                    <li class="module-slide-li"><a href="/8/0/1/type.html" class="module-slide-a"><p class="module-slide-author" style="font-size: 0.95rem;">美文同人</p></a></li>
                 </ol>
             </div>
         </div>

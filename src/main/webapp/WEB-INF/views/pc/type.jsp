@@ -30,7 +30,7 @@
 
                     <h3>分类</h3>
                     <ul type="category">
-                        <core:choose>
+                       <%-- <core:choose>
                             <core:when test="${selectType == null || selectType == 0}">
                                 <li data-id="30013" class="act">
                             </core:when>
@@ -39,9 +39,9 @@
                             </core:otherwise>
                         </core:choose>
                             <a href="/0/${selectStatus}/${pager.pageIndex}/type.html">全部<cite><i></i></cite></a>
-                        </li>
+                        </li>--%>
 
-                        <core:forEach items="${FictionType.getAllType()}" var="type">
+                       <%-- <core:forEach items="${FictionType.getAllType()}" var="type">
                             <core:choose>
                                 <core:when test="${type.index.equals(selectType)}">
                                     <li data-id="30013" class="act">
@@ -52,7 +52,16 @@
                             </core:choose>
                                 <a href="/${type.index}/${selectStatus}/${pager.pageIndex}/type.html">${type.name}<cite><i></i></cite></a>
                             </li>
-                        </core:forEach>
+                        </core:forEach>--%>
+                            <li data-id="30013"><a href="" alt="0" class="novel-type">全部<cite><i></i></cite></a></li>
+                            <li data-id="30013"><a href="" alt="1" class="novel-type">玄幻奇幻<cite><i></i></cite></a></li>
+                            <li data-id="30013"><a href="" alt="2" class="novel-type">武侠仙侠<cite><i></i></cite></a></li>
+                            <li data-id="30013"><a href="" alt="3" class="novel-type">女频言情<cite><i></i></cite></a></li>
+                            <li data-id="30013"><a href="" alt="4" class="novel-type">现代都市<cite><i></i></cite></a></li>
+                            <li data-id="30013"><a href="" alt="5" class="novel-type">历史军事<cite><i></i></cite></a></li>
+                            <li data-id="30013"><a href="" alt="6" class="novel-type">游戏竞技<cite><i></i></cite></a></li>
+                            <li data-id="30013"><a href="" alt="7" class="novel-type">科幻灵异<cite><i></i></cite></a></li>
+                            <li data-id="30013"><a href="" alt="8" class="novel-type">美文同人<cite><i></i></cite></a></li>
                     </ul>
                 </div>
 
@@ -61,7 +70,7 @@
                     <h3>状态</h3>
                     <ul type="action">
 
-                        <core:choose>
+                        <%--<core:choose>
                             <core:when test="${selectStatus == null || selectStatus == 0}">
                                 <li data-id="30013" class="act">
                             </core:when>
@@ -83,7 +92,10 @@
                             </core:choose>
                                 <a href="/${selectType}/${status.index}/${pager.pageIndex}/type.html">${status.name}</a>
                             </li>
-                        </core:forEach>
+                        </core:forEach>--%>
+                            <li data-id="30013"><a href="" alt="0" class="novel-status">全部</a></li>
+                            <li data-id="30013"><a href="" alt="1" class="novel-status">连载</a></li>
+                            <li data-id="30013"><a href="" alt="2" class="novel-status">完本</a></li>
                     </ul>
                 </div>
             </div>
@@ -124,6 +136,26 @@
 
     </div>
 </div>
+<script>
+    $(function () {
+        /**
+         * 侧边栏连接和样式设置
+         */
+        var selectType = "${selectType}";
+        var selectStatus = "${selectStatus}";
+        var pageIndex = "${pager.pageIndex}";
+        var typeNode = $(".novel-type:eq("+selectType+")");
+        var statusNode = $(".novel-status:eq("+selectStatus+")");
+        typeNode.parent("li").addClass("act");
+        statusNode.parent("li").addClass("act");
+        for(var i=0;i<$(".novel-type").length;i++){
+            $($(".novel-type")[i]).attr("href","/"+$($(".novel-type")[i]).attr("alt")+"/"+selectStatus+"/"+pageIndex+"/type.html");
+        }
+        for(var j=0;j<$(".novel-status").length;j++){
+            $($(".novel-status")[j]).attr("href","/"+selectType+"/"+$($(".novel-status")[j]).attr("alt")+"/"+pageIndex+"/type.html");
+        }
+    })
+</script>
 <%@ include file="footer.jsp"%>
 </body>
 </html>

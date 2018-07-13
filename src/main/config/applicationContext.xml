@@ -58,5 +58,46 @@
         <property name="connectionFactory" ref="jedisConnectionFactory"/>
     </bean>
 
+    <bean id="redisKey" class="com.luowenit.domain.db.RedisKey">
+       <property name="keys">
+           <map>
+               <entry key="hots" value="WEBSITE_NOVEL_FICTION_HOTS"/>
+               <entry key="typehots" value="WEBSITE_NOVEL_FICTION_TYPEHOTS"/>
+               <entry key="latests" value="WEBSITE_NOVEL_FICTION_LATESTS"/>
+               <entry key="latests_mobile" value="WEBSITE_NOVEL_FICTION_LATESTS_MOBILE"/>
+
+               <entry key="0_0" value="WEBSITE_NOVEL_TYPE_PAGE_ALL_ALL"/>
+               <entry key="1_0" value="WEBSITE_NOVEL_TYPE_PAGE_XUANHUAN_ALL"/>
+               <entry key="2_0" value="WEBSITE_NOVEL_TYPE_PAGE_WUXIA_ALL"/>
+               <entry key="3_0" value="WEBSITE_NOVEL_TYPE_PAGE_NVPIN_ALL"/>
+               <entry key="4_0" value="WEBSITE_NOVEL_TYPE_PAGE_DUSHI_ALL"/>
+               <entry key="5_0" value="WEBSITE_NOVEL_TYPE_PAGE_LISHI_ALL"/>
+               <entry key="6_0" value="WEBSITE_NOVEL_TYPE_PAGE_YOUXI_ALL"/>
+               <entry key="7_0" value="WEBSITE_NOVEL_TYPE_PAGE_KEHUAN_ALL"/>
+               <entry key="8_0" value="WEBSITE_NOVEL_TYPE_PAGE_MEIWEN_ALL"/>
+
+               <entry key="0_1" value="WEBSITE_NOVEL_TYPE_PAGE_ALL_DONE"/>
+               <entry key="1_1" value="WEBSITE_NOVEL_TYPE_PAGE_XUANHUAN_DONE"/>
+               <entry key="2_1" value="WEBSITE_NOVEL_TYPE_PAGE_WUXIA_DONE"/>
+               <entry key="3_1" value="WEBSITE_NOVEL_TYPE_PAGE_NVPIN_DONE"/>
+               <entry key="4_1" value="WEBSITE_NOVEL_TYPE_PAGE_DUSHI_DONE"/>
+               <entry key="5_1" value="WEBSITE_NOVEL_TYPE_PAGE_LISHI_DONE"/>
+               <entry key="6_1" value="WEBSITE_NOVEL_TYPE_PAGE_YOUXI_DONE"/>
+               <entry key="7_1" value="WEBSITE_NOVEL_TYPE_PAGE_KEHUAN_DONE"/>
+               <entry key="8_1" value="WEBSITE_NOVEL_TYPE_PAGE_MEIWEN_DONE"/>
+
+               <entry key="0_2" value="WEBSITE_NOVEL_TYPE_PAGE_ALL_CONTINUE"/>
+               <entry key="1_2" value="WEBSITE_NOVEL_TYPE_PAGE_XUANHUAN_CONTINUE"/>
+               <entry key="2_2" value="WEBSITE_NOVEL_TYPE_PAGE_WUXIA_CONTINUE"/>
+               <entry key="3_2" value="WEBSITE_NOVEL_TYPE_PAGE_NVPIN_CONTINUE"/>
+               <entry key="4_2" value="WEBSITE_NOVEL_TYPE_PAGE_DUSHI_CONTINUE"/>
+               <entry key="5_2" value="WEBSITE_NOVEL_TYPE_PAGE_LISHI_CONTINUE"/>
+               <entry key="6_2" value="WEBSITE_NOVEL_TYPE_PAGE_YOUXI_CONTINUE"/>
+               <entry key="7_2" value="WEBSITE_NOVEL_TYPE_PAGE_KEHUAN_CONTINUE"/>
+               <entry key="8_2" value="WEBSITE_NOVEL_TYPE_PAGE_MEIWEN_CONTINUE"/>
+           </map>
+       </property>
+    </bean>
+
 
 </beans>

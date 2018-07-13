@@ -1,18 +1,18 @@
 package com.luowenit.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.CollectionType;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.luowenit.domain.Chapter;
 import com.luowenit.domain.Fiction;
-import com.luowenit.domain.User;
 import com.luowenit.domain.assist.FictionStatus;
 import com.luowenit.domain.assist.FictionType;
 import com.luowenit.domain.assist.Pager;
+import com.luowenit.domain.db.RedisKey;
 import com.luowenit.service.ChapterService;
 import com.luowenit.service.FictionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Controller;
@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.*;
 
 import static com.luowenit.utils.HttpUtil.isMobile;
@@ -41,31 +40,20 @@ public class IndexController {
     private ValueOperations<String, String> valueOperations;
     @Autowired
     private Environment env;
+    @Autowired
+    private RedisKey redisKey;
 
     @RequestMapping(value = "/index.do")
-    public String index(Model model, HttpServletRequest request) throws IOException {
-        model.addAttribute("user",new User());
+    public String index(Model model, HttpServletRequest request) {
         List<Fiction> hots = null;
-        ObjectMapper mapper = new ObjectMapper();
-        String hotsKey = env.getProperty("website.novel.fiction.hots");
+        String hotsKey = redisKey.getKey("hots");
         String hotsJson = valueOperations.get(hotsKey);
-        try {
-            if ("".equals(hotsJson) || Objects.isNull(hotsJson)) {
-                hots = fictionService.getHots(50);
-                valueOperations.set(hotsKey,mapper.writeValueAsString(hots));
-            } else {
-                CollectionType collectionType = mapper.getTypeFactory().constructCollectionType(ArrayList.class, Fiction.class);
-                hots = mapper.readValue(hotsJson, collectionType);
-            }
-        } catch (JsonProcessingException e) {
-        } catch (IOException e) {
+        if(Objects.isNull(hotsJson)){
             hots = fictionService.getHots(50);
-            try {
-                valueOperations.set(hotsKey,mapper.writeValueAsString(hots));
-            } catch (JsonProcessingException e1) {
-            }
+            valueOperations.set(hotsKey,JSON.toJSONString(hots));
+        }else{
+            hots = JSON.parseObject(hotsJson,new TypeReference<List<Fiction>>(){});
         }
-
 
         if (!isMobile(request)) {
             List<ArrayList<Fiction>> hotsItems = new ArrayList<>();
@@ -85,22 +73,13 @@ public class IndexController {
         }
 
         List<Map<Integer, List<Fiction>>> typeHotsItems = null;
-        String typeHotsKey = env.getProperty("website.novel.fiction.typehots");
+        String typeHotsKey = redisKey.getKey("typehots");
         hotsJson = valueOperations.get(typeHotsKey);
-        try {
-            if ("".equals(hotsJson) || Objects.isNull(hotsJson)) {
-                typeHotsItems = fictionService.getTypeHotsItems();
-                valueOperations.set(typeHotsKey,mapper.writeValueAsString(typeHotsItems));
-            }else{
-                CollectionType collectionType = mapper.getTypeFactory().constructCollectionType(ArrayList.class, Map.class);
-                typeHotsItems = mapper.readValue(hotsJson, collectionType);
-            }
-        }catch (JsonProcessingException e) {
-        } catch (IOException e) {
+        if(Objects.isNull(hotsJson)){
             typeHotsItems = fictionService.getTypeHotsItems();
-            try {
-                valueOperations.set(typeHotsKey,mapper.writeValueAsString(typeHotsItems));
-            } catch (JsonProcessingException e1) { }
+            valueOperations.set(typeHotsKey,JSON.toJSONString(typeHotsItems));
+        }else{
+            typeHotsItems = JSON.parseObject(hotsJson,new TypeReference<List<Map<Integer, List<Fiction>>>>(){});
         }
         model.addAttribute("list", typeHotsItems);
 
@@ -123,45 +102,24 @@ public class IndexController {
         }
 
         List<Fiction> latests = null;
-        String latestsKey = env.getProperty("website.novel.fiction.latests");
-        String latestsMobileKey = env.getProperty("website.novel.fiction.latests.mobile");
+        String latestsKey = "";
+        int count=0;
         if (!isMobile(request)) {
+            count = 20;
+            latestsKey = redisKey.getKey("latests");
             hotsJson = valueOperations.get(latestsKey);
+
         }else{
-            hotsJson = valueOperations.get(latestsMobileKey);
+            count = 10;
+            latestsKey = redisKey.getKey("latests_mobile");
+            hotsJson = valueOperations.get(latestsKey);
         }
 
-        try {
-            if ("".equals(hotsJson) || Objects.isNull(hotsJson)) {
-                if (!isMobile(request)) {
-                    latests = fictionService.getLatests(20);
-                    String s = mapper.writeValueAsString(latests);
-                    valueOperations.set(latestsKey,s);
-                } else {
-                    latests = fictionService.getLatests(10);
-                    valueOperations.set(latestsMobileKey,mapper.writeValueAsString(latests));
-                }
-            }else{
-                CollectionType collectionType = mapper.getTypeFactory().constructCollectionType(ArrayList.class, Fiction.class);
-                latests = mapper.readValue(hotsJson, collectionType);
-            }
-        }catch (JsonProcessingException e) {
-        } catch (IOException e) {
-            if (!isMobile(request)) {
-                latests = fictionService.getLatests(20);
-                try {
-                    valueOperations.set(latestsKey,mapper.writeValueAsString(latests));
-                } catch (JsonProcessingException e1) {
-                    e1.printStackTrace();
-                }
-            } else {
-                latests = fictionService.getLatests(10);
-                try {
-                    valueOperations.set(latestsMobileKey,mapper.writeValueAsString(latests));
-                } catch (JsonProcessingException e1) {
-                    e1.printStackTrace();
-                }
-            }
+        if(Objects.isNull(hotsJson)){
+            latests = fictionService.getLatests(count);
+            valueOperations.set(latestsKey,JSON.toJSONString(latests));
+        }else{
+            latests = JSON.parseObject(hotsJson,new TypeReference<List<Fiction>>(){});
         }
         model.addAttribute("latests", latests);
 
@@ -179,7 +137,24 @@ public class IndexController {
             pager = new Pager(1, 10, "/" + type + "/" + status + "/#page#/type.html");
         }
         pager.setPageIndex(page);
-        List<Fiction> list = getTypeData(type, status, pager);
+
+        HashOperations<String, String, String> hash = redisTemplate.opsForHash();
+        String rKey = redisKey.getKey(type+"_"+status);
+        List<Fiction> list=null;
+        String json = "";
+        if(page <= 5){
+            setTotalWithType(type,status,pager);
+            json = hash.get(rKey,String.valueOf(page));
+            if(Objects.isNull(json)){
+                list = getTypeData(type, status, pager);
+                hash.put(rKey,String.valueOf(page),JSON.toJSONString(list));
+            }else{
+                list = JSON.parseObject(json,new TypeReference<List<Fiction>>(){});
+            }
+        }else{
+            list = getTypeData(type, status, pager);
+        }
+
         model.addAttribute("list", list);
         model.addAttribute("selectType", type);
         model.addAttribute("selectStatus", status);
@@ -201,31 +176,63 @@ public class IndexController {
             pager = new Pager(1, 10, "/" + type + "/" + status + "/#page#/type.html");
         }
         pager.setPageIndex(page);
-        List<Fiction> list = getTypeData(type, status, pager);
-        ObjectMapper mapper = new ObjectMapper();
+
+        HashOperations<String, String, String> hash = redisTemplate.opsForHash();
+        String rKey = redisKey.getKey(type+"_"+status);
+        List<Fiction> list=null;
+        String json = "";
+        int total = 0;
+
+        if(page <= 5){
+            setTotalWithType(type,status,pager);
+            json = hash.get(rKey,String.valueOf(page));
+            if(Objects.isNull(json)){
+                list = getTypeData(type, status, pager);
+                hash.put(rKey,String.valueOf(page),JSON.toJSONString(list));
+            }else{
+                list = JSON.parseObject(json,new TypeReference<List<Fiction>>(){});
+            }
+        }else{
+            list = getTypeData(type, status, pager);
+        }
+
         String result = "";
 
         Map<String, Object> map = new HashMap<>();
         map.put("list", list);
 
-        Map<FictionType, String> types = new HashMap<>();
+        Map<String, String> types = new HashMap<>();
         for (FictionType fictionType : FictionType.getAllType()) {
-            types.put(fictionType, fictionType.getName());
+            types.put(fictionType.getIndex()+"", fictionType.getName());
         }
         map.put("types", types);
 
-        Map<FictionStatus, String> statuses = new HashMap<>();
+        Map<String, String> statuses = new HashMap<>();
         for (FictionStatus fictionStatus : FictionStatus.getAllStatus()) {
-            statuses.put(fictionStatus, fictionStatus.getName());
+            statuses.put(fictionStatus.getIndex()+"", fictionStatus.getName());
         }
         map.put("statuses", statuses);
 
-        try {
-            result = mapper.writeValueAsString(map);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+        result = JSON.toJSONString(map);
         return result;
+    }
+
+    private void setTotalWithType(int type, int status, Pager pager){
+        int total = 0;
+        if (type != 0 && status != 0) {
+            FictionType oType = FictionType.fromIndex(type);
+            FictionStatus oStatus = FictionStatus.fromIndex(status);
+            total = fictionService.getTotalByTypeStatus(oType, oStatus, pager);
+        } else if (type != 0) {
+            FictionType oType = FictionType.fromIndex(type);
+            total = fictionService.getTotalByType(oType, pager);
+        } else if (status != 0) {
+            FictionStatus oStatus = FictionStatus.fromIndex(status);
+            total = fictionService.getTotalByStatus(oStatus, pager);
+        } else {
+            total = fictionService.getTotalByTypeStatus(null, null, pager);
+        }
+        pager.setTotal(total);
     }
 
     private List<Fiction> getTypeData(int type, int status, Pager pager) {
@@ -250,16 +257,6 @@ public class IndexController {
     @RequestMapping(value = "/typelist.do")
     public String typelist(Model model) {
         model.addAttribute("typesTotal", fictionService.getTotalByType());
-        Map<FictionType, String> imgs = new HashMap<>();
-        imgs.put(FictionType.XUANHUAN, "//qidian.qpic.cn/qdbimg/349573/c_25396310000735801/90");
-        imgs.put(FictionType.WUXIA, "//qidian.qpic.cn/qdbimg/349573/c_22278759000152102/90");
-        imgs.put(FictionType.DUSHI, "//qidian.qpic.cn/qdbimg/349573/c_7920237703552803/90");
-        imgs.put(FictionType.LISHI, "//qidian.qpic.cn/qdbimg/349573/c_22627120000545902/90");
-        imgs.put(FictionType.YOUXI, "//qidian.qpic.cn/qdbimg/349573/c_25421978000077401/90");
-        imgs.put(FictionType.KEHUAN, "//qidian.qpic.cn/qdbimg/349573/c_5873763503937503/90");
-        imgs.put(FictionType.MEIWEN, "//qidian.qpic.cn/qdbimg/349573/c_6120394504094103/90");
-        imgs.put(FictionType.NVPING, "//qidian.qpic.cn/qdbimg/349573/c_9500446903583303/90");
-        model.addAttribute("imgs", imgs);
         return "mobile/typelist";
     }
 
@@ -301,15 +298,8 @@ public class IndexController {
         data.put("fiction", fiction);
         data.put("pager", pager);
 
-        ObjectMapper mapper = new ObjectMapper();
-        String result = "";
-        try {
-            result = mapper.writeValueAsString(data);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
 
-        return result;
+        return JSON.toJSONString(data);
     }
 
 
@@ -349,14 +339,7 @@ public class IndexController {
     String m_chapter(@PathVariable int fiction_id, @PathVariable int number) {
         Map<String, Object> one = chapterService.getOneLazy(number, fiction_id);
         Chapter chapter = (Chapter) one.get("chapter");
-        ObjectMapper mapper = new ObjectMapper();
-        String result = "";
-        try {
-            result = mapper.writeValueAsString(chapter);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return result;
+        return JSON.toJSONString(chapter);
     }
 
     @RequestMapping(value = "/{page}/search.do", method = RequestMethod.GET)

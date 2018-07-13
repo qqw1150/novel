@@ -1,5 +1,6 @@
 package com.luowenit.domain;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.luowenit.domain.assist.FictionStatus;
 import com.luowenit.domain.assist.FictionType;
 import com.luowenit.domain.assist.Size;
@@ -8,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class Fiction implements Serializable{
     private int id;
@@ -28,6 +30,10 @@ public class Fiction implements Serializable{
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Chapter getLatest() {
@@ -117,20 +123,48 @@ public class Fiction implements Serializable{
     public void setDownUrl(String downUrl) {
         this.downUrl = downUrl;
     }
-
+    @JSONField(serialize = false)
     public FictionType getType() {
         return type;
     }
 
+    @JSONField(deserialize = false)
     public void setType(FictionType type) {
         this.type = type;
     }
 
-    public FictionStatus getStatus() {
+    @JSONField(serialize = true,name = "type")
+    public int getTypeIndex() {
+        if(Objects.isNull(type)){
+            return 0;
+        }
+        return type.getIndex();
+    }
+    @JSONField(deserialize = true,name = "type")
+    public void setTypeIndex(int index) {
+        this.type = FictionType.fromIndex(index);
+    }
+
+    @JSONField(serialize = true,name = "status")
+    public int getStatusIndex() {
+        if(Objects.isNull(status)){
+            return 0;
+        }
+        return status.getIndex();
+    }
+
+    @JSONField(serialize = false)
+    public FictionStatus getStatus(){
         return status;
     }
 
-    public void setStatus(FictionStatus status) {
+    @JSONField(deserialize = true,name = "status")
+    public void setStatusIndex(int index) {
+        this.status = FictionStatus.fromIndex(index);
+    }
+
+    @JSONField(deserialize = false)
+    public void setStatus(FictionStatus status){
         this.status = status;
     }
 

@@ -37,9 +37,9 @@ public enum FictionStatus {
     }
 
     public static FictionStatus fromIndex(Integer index){
-        if(index.equals(1)){
+        if(index.equals(CONTINUE.index)){
             return CONTINUE;
-        }else if(index.equals(2)){
+        }else if(index.equals(DONE.index)){
             return DONE;
         }else{
             return null;

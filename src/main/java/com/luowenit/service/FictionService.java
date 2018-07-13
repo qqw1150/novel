@@ -7,7 +7,6 @@ import com.luowenit.domain.Fiction;
 import com.luowenit.domain.assist.FictionStatus;
 import com.luowenit.domain.assist.FictionType;
 import com.luowenit.domain.assist.Pager;
-import com.luowenit.utils.DatetimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -139,6 +138,18 @@ public class FictionService {
             }
         }
         return fictions;
+    }
+
+    public int getTotalByTypeStatus(FictionType type,FictionStatus status, Pager pager){
+        return fictionDao.getTotalByTypeStatus(type, status, pager);
+    }
+
+    public int getTotalByType(FictionType type, Pager pager){
+        return fictionDao.getTotalByType(type,pager);
+    }
+
+    public int getTotalByStatus(FictionStatus status, Pager pager){
+        return fictionDao.getTotalByStatus(status,pager);
     }
 
 }

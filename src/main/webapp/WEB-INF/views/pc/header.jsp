@@ -149,9 +149,17 @@
     <div class="top-nav-wrap box-center cf">
         <div class="left-nav fl">
             <ul class="cf" style="margin-left: 80px">
-                <core:forEach items="${FictionType.getAllType()}" var="type">
+                <li class=""><a href="/1/0/1/type.html">玄幻奇幻</a></li>
+                <li class=""><a href="/2/0/1/type.html">武侠仙侠</a></li>
+                <li class=""><a href="/3/0/1/type.html">女频言情</a></li>
+                <li class=""><a href="/4/0/1/type.html">现代都市</a></li>
+                <li class=""><a href="/5/0/1/type.html">历史军事</a></li>
+                <li class=""><a href="/6/0/1/type.html">游戏竞技</a></li>
+                <li class=""><a href="/7/0/1/type.html">科幻灵异</a></li>
+                <li class=""><a href="/8/0/1/type.html">美文同人</a></li>
+                <%--<core:forEach items="${FictionType.getAllType()}" var="type">
                     <li class=""><a href="/${type.index}/0/1/type.html">${type.name}</a></li>
-                </core:forEach>
+                </core:forEach>--%>
             </ul>
         </div>
     </div>

@@ -164,7 +164,6 @@
         var theight=$(document).scrollTop();
         var rheight=$(document.body).height();
         var bheight=parseInt(rheight-theight-height);
-
         if(bheight < 100 && bheight > 0){
             if(pageIndex > pageCount){
                 return false;

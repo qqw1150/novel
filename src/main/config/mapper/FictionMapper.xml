@@ -15,7 +15,7 @@
     </insert>
     
     <select id="getLatests" parameterType="int" resultType="Fiction" useCache="true">
-        SELECT * FROM fiction ORDER BY uptime DESC LIMIT #{count}
+        SELECT id,title,uptime,author,cover,type,clicks FROM fiction ORDER BY uptime DESC LIMIT #{count}
     </select>
 
     <select id="getHots" resultType="Fiction" useCache="true" parameterType="int">
@@ -30,17 +30,6 @@
         ORDER BY `level` DESC,clicks DESC LIMIT #{pager.index},#{pager.size}
     </select>
 
-    <select id="getSortedByDate" resultType="Fiction" useCache="true" parameterType="hashmap">
-        SELECT id,cover,title,type,author FROM fiction
-        <if test="period != 0">
-            WHERE uptime BETWEEN DATE_SUB(now(),INTERVAL ${period} SECOND) AND now()
-        </if>
-        ORDER BY `level` DESC,clicks DESC
-        <if test="count != 0">
-            LIMIT #{count}
-        </if>
-    </select>
-    
     <select id="getTypeByCondition" parameterType="hashmap" useCache="true" resultType="Fiction">
         SELECT id,cover,title,author,type,`status`,intro FROM fiction
         <if test="type != null">
