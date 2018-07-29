@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.*;
@@ -343,18 +344,63 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/{page}/search.do", method = RequestMethod.GET)
-    public String search(@RequestParam String title, @PathVariable int page, Model model, HttpSession session) {
+    public String search(@RequestParam String title, @PathVariable int page, Model model, HttpSession session,HttpServletRequest request) {
         Pager pager = (Pager) session.getAttribute("pager");
         if (Objects.isNull(pager)) {
             pager = new Pager(1, 10, "/#page#/search.html?title=" + title);
         }
         pager.setPageIndex(page);
-        List<Fiction> hots = fictionService.getHots(6);
-        model.addAttribute("hots", hots);
+
+        if (!isMobile(request)) {
+            List<Fiction> hots = fictionService.getHots(6);
+            model.addAttribute("hots", hots);
+        }
+
         List<Fiction> list = fictionService.getMoreByTitle(title, pager);
         model.addAttribute("list", list);
         model.addAttribute("pager", pager);
-        return "pc/search";
+        model.addAttribute("condition", title);
+
+        if (!isMobile(request)) {
+            return "pc/search";
+        } else {
+            return "mobile/search";
+        }
+    }
+
+    @RequestMapping(value = "/to_search.do")
+    public String to_search(HttpSession session, HttpServletRequest request) {
+        return "mobile/search";
+    }
+
+    @RequestMapping(value = "/{page}/js_search.do", produces = "application/json;charset=utf-8")
+    public @ResponseBody String js_search(@RequestParam String title, @PathVariable int page, Model model, HttpSession session){
+        Pager pager = (Pager) session.getAttribute("pager");
+        if (Objects.isNull(pager)) {
+            pager = new Pager(1, 10, "/#page#/search.html?title=" + title);
+        }
+        pager.setPageIndex(page);
+
+        Map<String, Object> data = new HashMap<>();
+
+        List<Fiction> list = fictionService.getMoreByTitle(title, pager);
+
+        Map<String, String> types = new HashMap<>();
+        for (FictionType fictionType : FictionType.getAllType()) {
+            types.put(fictionType.getIndex()+"", fictionType.getName());
+        }
+        data.put("types", types);
+
+        Map<String, String> statuses = new HashMap<>();
+        for (FictionStatus fictionStatus : FictionStatus.getAllStatus()) {
+            statuses.put(fictionStatus.getIndex()+"", fictionStatus.getName());
+        }
+        data.put("statuses", statuses);
+
+        data.put("list", list);
+        data.put("pager", pager);
+        data.put("condition", title);
+        return JSON.toJSONString(data);
     }
 
 }

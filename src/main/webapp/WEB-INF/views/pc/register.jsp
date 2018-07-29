@@ -160,19 +160,21 @@
     <div class="VIP7AD"></div>
     <h1></h1>
     <div class="left">
-        <core:set var="registerErrmsg" value="${sessionScope.registerErrmsg}"></core:set>
         <form action="/register.html" method="post" id="formMR" class="form-horizontal">
             <div class="edit" style="position: relative;" id="adit">
-                <core:if test="${registerErrmsg != null && !\"\".equals(registerErrmsg)}">
-                <div class="form-group">
-                    <label class="col-lg-3 control-label"><em></em></label>
-                    <div class="col-lg-4" style="color: red">${registerErrmsg}</div>
-                </div>
-                </core:if>
+                    <core:if test="${errors != null && errors.size() > 0}">
+                        <core:forEach var="err" items="${errors}">
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label"><em></em></label>
+                                <div class="col-lg-4" style="color: red">${err.defaultMessage}</div>
+                            </div>
+                        </core:forEach>
+                    </core:if>
                 <div class="form-group">
                     <label class="col-lg-3 control-label"><em></em>用户名</label>
                     <div class="col-lg-4">
                     <input type="text" name="username" class="form-control" placeholder="用户名/手机号/邮箱"/>
+
                     </div>
                 </div>
 
@@ -185,14 +187,16 @@
                 <div class="form-group">
                     <label class="col-lg-3 control-label">验证码</label>
                     <div class="col-lg-4">
-                        <input type="text" name="verificationCode" class="yzinput" maxlength="4" class="form-control"/>
+                        <input type="text" name="valicode" class="yzinput" maxlength="4" class="form-control"/>
                     </div>
-                    <span class="yz"><img id="verificationCodeImg" src="/verify_code.html" width="90" height="35"><a href="javascript:void(0);" onclick="var code = document.getElementById('verificationCodeImg');code.src=code.src+'?'+Math.random()">看不清换一张</a></span>
+                    <div class="col-lg-5">
+                        <span class="yz"><img id="verificationCodeImg" src="/verify_code.html" width="90" height="35"><a href="javascript:void(0);" onclick="var code = document.getElementById('verificationCodeImg');code.src=code.src+'?'+Math.random()">看不清换一张</a></span>
+                    </div>
                 </div>
             </div>
             <div class="line-x"></div>
             <div class="zcbtn">
-                <input type="button" id="submitBut" value=" "/>
+                <input type="submit" id="submitBut" value=" "/>
             </div>
         </form>
     </div>

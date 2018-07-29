@@ -1,16 +1,17 @@
 package com.luowenit.controller;
 
 import com.luowenit.domain.User;
+import com.luowenit.domain.assist.UserValidator;
 import com.luowenit.service.UserService;
 import com.luowenit.utils.VerifyCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Objects;
+import java.util.List;
 
 import static com.luowenit.utils.HttpUtil.isMobile;
 
@@ -59,22 +60,15 @@ public class UserController {
     }
 
     @RequestMapping(value = "/register.do", method = RequestMethod.POST)
-    public String register(@ModelAttribute User user, @RequestParam String verificationCode, HttpSession session,RedirectAttributes attributes) {
-        session.removeAttribute("registerErrmsg");
-        if("".equals(user.getUsername()) || Objects.isNull(user.getUsername())){
-            session.setAttribute("registerErrmsg", "用户名不能为空");
-            return "redirect:/go_register.html";
-        }
+    public String register(@ModelAttribute User user, BindingResult result, Model model,HttpSession session,HttpServletRequest request) {
 
-        if("".equals(user.getPassword()) || Objects.isNull(user.getPassword())){
-            session.setAttribute("registerErrmsg", "密码不能为空");
-            return "redirect:/go_register.html";
-        }
+        UserValidator userValidator = new UserValidator(userService,session);
+        userValidator.validate(user,result);
 
-        String code = (String) session.getAttribute("verificationCode");
-        if (!code.toUpperCase().equals(verificationCode.trim().toUpperCase())) {
-            session.setAttribute("registerErrmsg", "验证码不正确");
-            return "redirect:/go_register.html";
+        if(result.hasErrors()){
+            List<ObjectError> allErrors = result.getAllErrors();
+            model.addAttribute("errors", allErrors);
+            return "pc/register";
         }
 
         userService.addOne(user);
@@ -96,6 +90,4 @@ public class UserController {
         session.invalidate();
         return "redirect:" + request.getHeader("referer");
     }
-
-
 }

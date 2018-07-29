@@ -1,8 +1,8 @@
 package com.luowenit.domain;
 
-import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -11,12 +11,22 @@ import java.io.Serializable;
  */
 public class User implements Serializable {
     private int id;
-    @NotBlank(message = "用户名不能为空")
+    @NotEmpty(message = "用户名不能为空")
     private String username;
-    @NotBlank(message = "密码不能为空")
+    @NotNull(message = "密码不能为空")
     @Min(value = 6,message = "密码长度最少6位")
     private String password;
     private String icon;
+    @NotNull(message = "验证码不能为空")
+    private String valicode;
+
+    public String getValicode() {
+        return valicode;
+    }
+
+    public void setValicode(String valicode) {
+        this.valicode = valicode;
+    }
 
     public int getId() {
         return id;

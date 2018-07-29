@@ -125,13 +125,13 @@
             <core:choose>
                 <core:when test="${Objects.isNull(user) || \"\".equals(user)}">
             <div class="avatar" id="j-userWrap">
-                <a class="link" href="javascript:" onclick="showLogin()" id="j-avatar">
+                <a class="link" href="javascript:" onclick="showLogin()">
                     <img src="/image/account.1e031.png"/>
                 </core:when>
                 <core:otherwise>
             <div class="avatar" id="j-userWrap" onmouseout="hideLogout()" onmouseover="showLogout()">
                 <a class="link" href="javascript:" id="j-avatar">
-                    <img src="${user.icon}"/>
+                    <img src="${user.icon}" title="${user.username}"/>
                 </core:otherwise>
             </core:choose>
                 </a>
@@ -188,6 +188,7 @@
     <div style="position: absolute; z-index: 2147483647; top: 0px; right: 0px;">
         <div class="close_bar"></div>
     </div>
+</div>
 </div>
 
 <script src="/js/jquery-2.0.3.min.js"></script>

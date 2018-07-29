@@ -8,6 +8,10 @@
    </insert>
 
     <select id="login" parameterType="User" useCache="false" resultType="User">
-        SELECT * FROM user WHERE username = #{username} AND password = password(#{password});
+        SELECT `id`,`username`,`password`,`icon` FROM user WHERE username = #{username} AND password = password(#{password});
+    </select>
+
+    <select id="getOneByUserName" parameterType="java.lang.String" resultType="User" useCache="false">
+        SELECT `id`,`username`,`password`,`icon` FROM user WHERE username = #{username}
     </select>
 </mapper>

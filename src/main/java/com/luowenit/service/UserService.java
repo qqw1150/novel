@@ -24,4 +24,8 @@ public class UserService {
         return null;
     }
 
+    public User getOneByUsername(String username){
+        return userDao.getOneByUsername(username);
+    }
+
 }

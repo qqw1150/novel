@@ -7,4 +7,6 @@ public interface UserMapper {
     int addOne(User user);
 
     User login(User user);
+
+    User getOneByUserName(String username);
 }

@@ -33,22 +33,6 @@
                 </div>
             </div>
             <ol class="book-ol book-ol-normal">
-
-                <%--<core:forEach var="type" items="${typesTotal.keySet()}">
-                    <li class="book-li-msg book-back">
-                        <a href="/${type.index}/0/1/type.html" class="book-sort">
-                            <img src="${imgs.get(type)}" class="book-pic" alt="${type.name}">
-                            <div class="book-cell">
-                                <div class="book-title-x">
-                                    <h4 class="book-title">${type.name}</h4>
-                                </div>
-                                <p class="book-tags">
-                                    <em>${typesTotal.get(type)}本</em>
-                                </p>
-                            </div>
-                        </a>
-                    </li>
-                </core:forEach>--%>
                 <li class="book-li-msg book-back">
                     <a href="/1/0/1/type.html" class="book-sort">
                         <img src="//qidian.qpic.cn/qdbimg/349573/c_25396310000735801/90" class="book-pic" alt="玄幻奇幻}">

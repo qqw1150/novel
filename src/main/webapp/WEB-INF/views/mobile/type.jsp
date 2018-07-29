@@ -107,54 +107,6 @@
 </div>
 <script type="text/javascript" src="/js/jquery-2.0.3.min.js"></script>
 <script type="text/javascript">
-    /*var pageCount = parseInt("${pager.pageCount}");
-    var pageIndex = parseInt("${pager.pageIndex+1}");
-    var flag=true;
-
-    function loading() {
-        if(pageIndex > pageCount){
-            return false;
-        }
-        $("#pull-loading").text("正在拼命加载中...");
-        var url = "/${selectType}/${selectStatus}/"+pageIndex+"/js_type.html";
-        if(flag){
-            flag=false;
-            $.ajax({
-                url: url,
-                type: "get",
-                dataType: 'json',
-                success: function (data) {
-                    pageIndex++;
-                    var html="";
-                    for(var i=0;i<data.list.length;i++){
-                        var fiction=data.list[i];
-                        html+="";
-                        html+="<li class=\"book-li\"><a href=\"/"+fiction.id+"/1/1/fiction.html\" class=\"book-layout\">";
-                        html+="<img src=\""+fiction.cover+"\" class=\"book-cover\" alt=\""+fiction.title+"\" onerror=\"javascript:this.src='https://www.qisuu.la/modules/article/images/nocover.jpg';\"/>";
-                        html+="<div class=\"book-cell\"><div class=\"book-title-x\"><div class=\"book-title-r\"></div><h4 class=\"book-title\">"+fiction.title+"</h4></div>";
-                        if(fiction.intro.length>40){
-                            html+="<p class=\"book-desc\">"+fiction.intro.substring(0,40)+"...</p>"
-                        }else{
-                            html += "<p class=\"book-desc\">"+fiction.intro+"</p>";
-                        }
-                        html+="<div class=\"book-meta\"><div class=\"book-meta-l\"><span class=\"book-author\"><svg class=\"icon icon-human\"><title>作者</title></svg>"+fiction.author+"</span></div>";
-                        html+="<div class=\"book-meta-r\"><span class=\"tag-small-group origin-right\">";
-                        html+="<em class=\"tag-small yellow\">"+data['types'][fiction.type]+"</em><em class=\"tag-small red\">"+data['statuses'][fiction.status]+"</em>";
-                        html+="</span></div></div></div></a></li>";
-                    }
-                    $("#books-0").append(html);
-                    flag=true;
-                    $("#pull-loading").text("点击加载更多");
-                    if(pageIndex > pageCount){
-                        $("#pull-loading").remove();
-                    }
-                },
-                error: function () {
-                    console.log("出错了");
-                }
-            });
-        }
-    }*/
 
     var pageCount = parseInt("${pager.pageCount}");
     var pageIndex = parseInt("${pager.pageIndex+1}");
