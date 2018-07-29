@@ -369,7 +369,7 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/to_search.do")
-    public String to_search(HttpSession session, HttpServletRequest request) {
+    public String to_search() {
         return "mobile/search";
     }
 

@@ -7,7 +7,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="core" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.luowenit.domain.assist.FictionType" %>
 <html style="height: 640px;">
 <head>
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">

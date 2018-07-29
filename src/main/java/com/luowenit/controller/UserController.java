@@ -90,4 +90,9 @@ public class UserController {
         session.invalidate();
         return "redirect:" + request.getHeader("referer");
     }
+
+    @RequestMapping(value = "/to_login.do")
+    public String to_login() {
+        return "mobile/login";
+    }
 }
