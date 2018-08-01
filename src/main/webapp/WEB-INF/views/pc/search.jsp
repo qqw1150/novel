@@ -19,44 +19,51 @@
 <div class="box-center">
     <div class="result-wrap cf">
         <div class="main-content-wrap fl">
-            <div id="result-list" class="inner-wrap">
-                <div class="book-img-text">
-                    <ul>
-                        <core:forEach var="fiction" items="${list}">
-                            <li>
-                                <div class="book-img-box">
-                                    <a href="/${fiction.id}/1/1/fiction.html" target="_blank"><img src="${fiction.cover}" onerror="javascript:this.src='https://www.qisuu.la/modules/article/images/nocover.jpg';"></a>
-                                </div>
-                                <div class="book-mid-info">
+            <core:choose>
+                <core:when test="${list.size()>0}">
+                    <div id="result-list" class="inner-wrap">
+                        <div class="book-img-text">
+                            <ul>
+                                <core:forEach var="fiction" items="${list}">
+                                    <li>
+                                        <div class="book-img-box">
+                                            <a href="/${fiction.id}/1/1/fiction.html" target="_blank"><img src="${fiction.cover}" onerror="javascript:this.src='https://www.qisuu.la/modules/article/images/nocover.jpg';"></a>
+                                        </div>
+                                        <div class="book-mid-info">
 
-                                    <h4><a href="/${fiction.id}/1/1/fiction.html" target="_blank"><cite class="red-kw">${fiction.title}</cite></a></h4>
-                                    <p class="author">
-                                        <a class="name default">${fiction.author}</a><em>|</em><a href="/${fiction.type.index}/${fiction.status.index}/1/type.html" target="_blank">${fiction.type.name}</a><em>|</em><span>${fiction.status.name}</span>
-                                    </p>
+                                            <h4><a href="/${fiction.id}/1/1/fiction.html" target="_blank"><cite class="red-kw">${fiction.title}</cite></a></h4>
+                                            <p class="author">
+                                                <a class="name default">${fiction.author}</a><em>|</em><a href="/${fiction.type.index}/${fiction.status.index}/1/type.html" target="_blank">${fiction.type.name}</a><em>|</em><span>${fiction.status.name}</span>
+                                            </p>
 
-                                    <core:choose>
-                                        <core:when test="${fiction.intro.length()>70}">
-                                            <p class="intro">${fiction.intro.substring(0,70)}...</p>
-                                        </core:when>
-                                        <core:otherwise>
-                                            <p class="intro">${fiction.intro}</p>
-                                        </core:otherwise>
-                                    </core:choose>
-                                    <p class="update">
-                                        <a href="/${fiction.id}/${fiction.latest.number}/chapter.html" target="_blank">${fiction.latest.name}</a><em>·</em><span><fmt:formatDate value="${fiction.uptime}" pattern="yyyy-MM-dd HH:mm:ss"/></span></p>
-                                </div>
-                                <div class="book-right-info">
-                                    <p class="btn">
-                                        <a class="pink-btn" href="/${fiction.id}/1/1/fiction.html" target="_blank">书籍详情</a>
-                                        <a class="add-book border-btn" href="javascript:" data-bookid="22281178000299202">加入书架</a>
-                                    </p>
-                                </div>
-                            </li>
-                        </core:forEach>
-                    </ul>
-                </div>
-                ${pager.build()}
-            </div>
+                                            <core:choose>
+                                                <core:when test="${fiction.intro.length()>70}">
+                                                    <p class="intro">${fiction.intro.substring(0,70)}...</p>
+                                                </core:when>
+                                                <core:otherwise>
+                                                    <p class="intro">${fiction.intro}</p>
+                                                </core:otherwise>
+                                            </core:choose>
+                                            <p class="update">
+                                                <a href="/${fiction.id}/${fiction.latest.number}/chapter.html" target="_blank">${fiction.latest.name}</a><em>·</em><span><fmt:formatDate value="${fiction.uptime}" pattern="yyyy-MM-dd HH:mm:ss"/></span></p>
+                                        </div>
+                                        <div class="book-right-info">
+                                            <p class="btn">
+                                                <a class="pink-btn" href="/${fiction.id}/1/1/fiction.html" target="_blank">书籍详情</a>
+                                                <a class="add-book border-btn" href="javascript:" data-bookid="22281178000299202">加入书架</a>
+                                            </p>
+                                        </div>
+                                    </li>
+                                </core:forEach>
+                            </ul>
+                        </div>
+                            ${pager.build()}
+                    </div>
+                </core:when>
+                <core:otherwise>
+                    <div style="text-align: center;height: 200px;line-height: 200px;">没有查询到任何数据</div>
+                </core:otherwise>
+            </core:choose>
 
         </div>
         <div class="right-side-wrap fr">

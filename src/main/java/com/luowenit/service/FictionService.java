@@ -124,6 +124,10 @@ public class FictionService {
     public List<Fiction> getMoreByTitle(String title,Pager pager){
         List<Fiction> fictions = fictionDao.getMoreByTitle("%" + title + "%",pager);
 
+        if(fictions.size() == 0){
+            return fictions;
+        }
+
         List<Integer> fictionIds = new ArrayList<>();
         for (int i = 0; i < fictions.size(); i++) {
             fictionIds.add(fictions.get(i).getId());

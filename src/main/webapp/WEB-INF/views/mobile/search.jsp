@@ -50,40 +50,48 @@
         </div>
         <div id="searchResult" class="search-detail">
             <div class="module">
-                <ol id="books-0" class="book-ol book-ol-normal jsBooks" data-cached="true">
-                    <core:forEach items="${list}" var="fiction">
-                        <li class="book-li">
-                            <a href="/${fiction.id}/1/1/fiction.html" class="book-layout">
-                                <img src="${fiction.cover}" class="book-cover" alt="${fiction.title}" onerror="javascript:this.src='https://www.qisuu.la/modules/article/images/nocover.jpg';"/>
-                                <div class="book-cell">
-                                    <div class="book-title-x">
-                                        <h4 class="book-title"><mark>${fiction.title}</mark></h4>
-                                    </div>
-                                    <core:choose>
-                                        <core:when test="${fiction.intro.length()>40}">
-                                            <p class="book-desc">${fiction.intro.substring(0,40)}...</p>
-                                        </core:when>
-                                        <core:otherwise>
-                                            <p class="book-desc">${fiction.intro}</p>
-                                        </core:otherwise>
-                                    </core:choose>
-                                    <div class="book-meta">
-                                        <div class="book-meta-l">
+                <core:choose>
+                    <core:when test="${list.size()>0}">
+                        <ol id="books-0" class="book-ol book-ol-normal jsBooks" data-cached="true">
+                            <core:forEach items="${list}" var="fiction">
+                                <li class="book-li">
+                                    <a href="/${fiction.id}/1/1/fiction.html" class="book-layout">
+                                        <img src="${fiction.cover}" class="book-cover" alt="${fiction.title}" onerror="javascript:this.src='https://www.qisuu.la/modules/article/images/nocover.jpg';"/>
+                                        <div class="book-cell">
+                                            <div class="book-title-x">
+                                                <h4 class="book-title"><mark>${fiction.title}</mark></h4>
+                                            </div>
+                                            <core:choose>
+                                                <core:when test="${fiction.intro.length()>40}">
+                                                    <p class="book-desc">${fiction.intro.substring(0,40)}...</p>
+                                                </core:when>
+                                                <core:otherwise>
+                                                    <p class="book-desc">${fiction.intro}</p>
+                                                </core:otherwise>
+                                            </core:choose>
+                                            <div class="book-meta">
+                                                <div class="book-meta-l">
                                 <span class="book-author">
                                     <svg class="icon icon-human"><title>作者</title></svg>${fiction.author}
                                 </span>
-                                        </div>
-                                        <div class="book-meta-r">
+                                                </div>
+                                                <div class="book-meta-r">
                                 <span class="tag-small-group origin-right">
                                     <em class="tag-small yellow">${fiction.type.name}</em><em class="tag-small red">${fiction.status.name}</em>
                                 </span>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                    </core:forEach>
-                </ol>
+                                    </a>
+                                </li>
+                            </core:forEach>
+                        </ol>
+                    </core:when>
+                    <core:otherwise>
+                        <div style="text-align: center;">没有搜索到任何数据</div>
+                    </core:otherwise>
+                </core:choose>
+
 
                 <a href="#header" class="footer-backtop-circle jsBackToTop" title="返回顶部" style="opacity: 1; visibility: visible;"><svg class="icon icon-backtop"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-backtop"><svg id="icon-backtop" viewBox="0 0 12 9" width="100%" height="100%"><g><path d="M11.5 1a.5.5 0 1 0 0-1H.5a.5.5 0 0 0 0 1h11zM6.354 3.354h-.708l5.5 5.5a.5.5 0 0 0 .708-.708l-5.5-5.5a.5.5 0 0 0-.708 0l-5.5 5.5a.5.5 0 0 0 .708.708l5.5-5.5z"></path></g></svg></use></svg></a>
                 <div id="tip" class="pull-loading none" style="color: #ff7e00;text-align: center">正在努力加载中...</div>

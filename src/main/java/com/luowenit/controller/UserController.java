@@ -12,6 +12,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 import static com.luowenit.utils.HttpUtil.isMobile;
 
@@ -29,23 +31,27 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping(value = "/login.do", method = RequestMethod.POST)
-    public String login(@ModelAttribute User user, Model model, HttpSession session, HttpServletRequest request) {
-        session.removeAttribute("errmsg");
-        if ("".equals(user.getUsername())) {
-            session.setAttribute("errmsg", "用户名不能为空");
-            return "redirect:" + request.getHeader("Referer");
-        }
-
-        if ("".equals(user.getPassword())) {
-            session.setAttribute("errmsg", "密码不能为空");
-            return "redirect:" + request.getHeader("Referer");
-        }
+    public String login(@ModelAttribute User user, Model model, BindingResult result, HttpServletRequest request, HttpSession session) {
+        session.removeAttribute("errors");
+        UserValidator userValidator = new UserValidator();
+        userValidator.validate(user,result);
 
         User loginUser = userService.login(user);
-        if (loginUser == null) {
-            session.setAttribute("errmsg", "用户名或密码错误");
-            return "redirect:" + request.getHeader("Referer");
+        if (Objects.isNull(loginUser)) {
+           result.addError(new ObjectError("password","用户名或密码不正确"));
         }
+
+        if(result.hasErrors()){
+            List<ObjectError> allErrors = result.getAllErrors();
+            model.addAttribute("errors", allErrors);
+            if (!isMobile(request)) {
+                session.setAttribute("errors",allErrors);
+                return "redirect:/index.html";
+            } else {
+                return "mobile/login";
+            }
+        }
+
         session.setAttribute("user", loginUser);
         return "redirect:/index.html";
     }
@@ -68,7 +74,11 @@ public class UserController {
         if(result.hasErrors()){
             List<ObjectError> allErrors = result.getAllErrors();
             model.addAttribute("errors", allErrors);
-            return "pc/register";
+            if (!isMobile(request)) {
+                return "pc/register";
+            } else {
+                return "mobile/register";
+            }
         }
 
         userService.addOne(user);
@@ -95,4 +105,5 @@ public class UserController {
     public String to_login() {
         return "mobile/login";
     }
+
 }

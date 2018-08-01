@@ -10,8 +10,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="com.luowenit.domain.assist.FictionType" %>
 <%@ page import="java.util.Objects" %>
-<%@ page import="com.luowenit.domain.User" %>
-<%@ page import="org.springframework.ui.Model" %>
 <style>
     .header .top-head .search-wrap form label{
         border-color: #fd8820 !important;
@@ -107,11 +105,19 @@
         padding: 20px 0;
     }
     .none{display: none}
+
+    .header .top-head .logo img {
+        width: 180px;
+        height: 46px;
+        position: relative;
+        bottom: 6px;
+    }
+
 </style>
 <div class="header">
     <div class="top-head box-center cf">
-        <h1 class="logo" title="小说阅读网">
-            <a href="/index.html"><em></em></a>
+        <h1 class="logo" title="传阅小说网" style="background: none">
+            <a href="/index.html"><img src="/image/logo2.png"/></a>
         </h1>
         <div class="search-wrap">
             <form class="cf" id="formUrl" action="/1/search.html" method="get" target="_blank">
@@ -168,10 +174,12 @@
     <div id="k2_login_pop" class="K2_POP">
         <div class="title">用户登录</div>
         <div class="context">
-            <core:set var="errmsg" value="${sessionScope.errmsg}"></core:set>
+            <core:set value="${sessionScope.get('errors')}" var="errors"></core:set>
             <core:choose>
-                <core:when test="${errmsg != null && !\"\".equals(errmsg)}">
-                    <span id="Q_login_user_error" class="war_text" style="display: block">${errmsg}</span>
+                <core:when test="${!Objects.isNull(errors) && errors.size()>0}">
+                    <core:forEach items="${errors}" var="err">
+                        <span id="Q_login_user_error" class="war_text" style="display: block">${err.defaultMessage}</span>
+                    </core:forEach>
                 </core:when>
                 <core:otherwise>
                     <span id="Q_login_user_error" class="war_text" style="display: none"></span>
@@ -195,8 +203,8 @@
 <script>
     $(function () {
         $("#mlogin").css("left",$(document.body).width()/2-$("#mlogin").width()/2)
-        <core:if test="${errmsg != null && !\"\".equals(errmsg)}">
-            $("#mlogin").show();
+        <core:if test="${!Objects.isNull(errors) && errors.size()>0}">
+            showLogin();
         </core:if>
     });
 

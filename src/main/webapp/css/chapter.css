@@ -448,7 +448,7 @@ h3.lang {
 	float: left;
 }
 .header .top-head .logo {
-	background: url("/image/logo.d9db9.png") no-repeat; width: 180px; height: 33px; margin-top: 26px; margin-right: 168px;
+	  width: 180px; height: 33px; margin-top: 26px; margin-right: 168px;
 }
 .header .top-head .logo a {
 	width: 180px; height: 100%; display: block; position: relative; z-index: 1;
@@ -582,7 +582,7 @@ h3.lang {
 @media not all, not all, not all, not all, not all
 {
 .header .top-head .logo {
-	background: url("/image/logo.d9db9.png") no-repeat 0% 0% / 143px;
+	/*background: url("/image/logo.d9db9.png") no-repeat 0% 0% / 143px;*/
 }
 }
 .score-list li {

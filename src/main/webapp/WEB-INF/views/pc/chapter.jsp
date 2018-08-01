@@ -23,13 +23,19 @@
         .header .top-head .user-wrap li .iconfont{
             color: #fd8820;
         }
+        .header .top-head .logo img {
+            width: 180px;
+            height: 46px;
+            position: relative;
+            bottom: 6px;
+        }
     </style>
 </head>
 <body>
 <div class="header">
     <div class="top-head box-center cf">
-        <h1 class="logo" title="小说阅读网">
-            <a href="/index.html"><em></em></a>
+        <h1 class="logo" title="传阅小说网" style="background: none">
+            <a href="/index.html"><img src="/image/logo2.png"/></a>
         </h1>
         <div class="search-wrap">
             <form class="cf" id="formUrl" action="/1/search.html" method="get" target="_blank">

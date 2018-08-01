@@ -118,7 +118,7 @@
 
         <!-- start 登录 -->
         <section class="login-wrap input-list">
-            <form id="loginForm" action="/login.html" method="post">
+            <form id="loginForm" action="/register.html" method="post">
             <ul>
                 <li class="">
                     <svg class="icon icon-user">
@@ -130,9 +130,13 @@
                         <use xlink:href="#icon-password"></use>
                     </svg>
                     <input type="password" name="password" id="password" placeholder="密码">
-                    <svg class="icon icon-del" id="j-delPassWord" style="display: none;">
-                        <use xlink:href="#icon-del"></use>
+                </li>
+                <li class="password-input">
+                    <svg class="icon icon-password">
+                        <use xlink:href="#icon-look"></use>
                     </svg>
+                    <input style="width: 54% !important;" type="text" name="valicode" id="valicode" placeholder="验证码">
+                    <span><img id="verificationCodeImg" src="/verify_code.html" width="90" height="35"><a href="javascript:void(0);" onclick="var code = document.getElementById('verificationCodeImg');code.src=code.src+'?'+Math.random()"></a></span>
                 </li>
             </ul>
 
@@ -150,33 +154,11 @@
                     </core:otherwise>
                 </core:choose>
             <!-- 去掉禁用 把disabled去掉即可 loading状态请查看loading.html -->
-            <a class="red-btn disabled login-button" href="javascript:" onclick="msubmit()"><span class="load"></span>登录</a>
-            <a class="red-btn disabled login-button" style="background-color: whitesmoke;border: 1px solid #c0c5cc;color: #2b2a2e" href="javascript:;" onclick="window.history.go(-1);"><span class="load"></span>返回</a>
-                <p class="flex"><a class="blue" href="/go_register.html">注册账号</a></p>
+            <a class="red-btn disabled login-button" href="javascript:" onclick="msubmit()"><span class="load"></span>注册</a>
+            <a class="red-btn disabled login-button" style="background-color: whitesmoke;border: 1px solid #c0c5cc;color: #2b2a2e" href="/to_login.html"><span class="load"></span>返回</a>
             </form>
         </section>
         <!-- end 登录 -->
-
-        <!-- start 其他登录方式 -->
-        <section class="other-login" id="j-otherLogin">
-            <section class="qq-login">
-                <ul>
-                    <li>
-                        <a href="https://ptlogin.qidian.com/login/qqconnectlogin?appid=13&amp;areaid=1&amp;target=top&amp;ticket=1&amp;auto=1&amp;autotime=30&amp;ajaxdm=yuewen&amp;header=1&amp;returnUrl=https%3A%2F%2Fm.qidian.com%2Fuser%3Ffrom%3Dlogin&amp;jumpdm=yuewen">
-                            <em class="login-icon qq"></em>
-                            <p>QQ登录</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="login-icon app"
-                           href="https://passport.yuewen.com/mobile/phonelogin.html?appid=13&amp;areaid=1&amp;target=top&amp;ticket=1&amp;auto=1&amp;autotime=30&amp;ajaxdm=yuewen&amp;header=1&amp;returnUrl=https%3A%2F%2Fm.qidian.com%2Fuser%3Ffrom%3Dlogin"><em
-                                class="login-icon wechat"></em>
-                            <p>微信登录</p></a>
-                    </li>
-                </ul>
-            </section>
-        </section>
-        <!-- end 其他登录方式 -->
 
     </section>
 
@@ -185,10 +167,16 @@
         function msubmit() {
             var username = $("#username").val();
             var password = $("#password").val();
+            var valicode = $("#valicode").val();
 
             if(username.trim() == "" || password.trim() == ""){
                 $("#merror").removeClass("hidden");
                 $("#merror").text("用户名获取密码为空");
+            }
+
+            if(valicode.trim() == ""){
+                $("#merror").removeClass("hidden");
+                $("#merror").text("验证码不能为空");
             }
 
             $("#loginForm").submit();
