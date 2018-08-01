@@ -92,6 +92,122 @@
         <span></span>
     </div>
 </div>
+<div class="left-bar-list" id="j_leftBarList" style="top: 140px;">
+    <dl>
+        <dd id="j_navCatalogBtn">
+            <a href="javascript:"><i><em class="iconfont"></em><span style="color: #262626;">目录</span></i></a>
+            <div class="guide-box">
+                <cite></cite>
+                目录
+            </div>
+        </dd>
+        <dd id="j_navSettingBtn">
+            <a href="javascript:"><i><em class="iconfont"></em><span style="color: #262626;">设置</span></i></a>
+            <div class="guide-box" style="color: #262626;">
+                <cite></cite>
+                设置
+            </div>
+        </dd>
+        <dd>
+            <a class="add-book" href="javascript:" data-bookid="10112704904733103"><i><em class="iconfont"></em><span style="color: #262626;">书架</span></i></a>
+            <div class="guide-box">
+                <cite></cite>
+                加入书架
+            </div>
+        </dd>
+    </dl>
+    <div class="panel-wrap setting" id="j_setting" style="background: white">
+        <a class="iconfont close-panel setting-close" href="javascript:"></a>
+        <div class="panel-box">
+            <h4 class="lang">设置</h4>
+            <div class="setting-list-wrap">
+                <ul>
+                    <li class="theme-list" id="j_themeList">
+                        <i>阅读主题</i>
+                        <span title="默认" class="theme-0 act" data-stc="0" data-st="0"><em class="iconfont">
+                            </em></span>
+
+                        <span title="牛皮纸" class="theme-1 " data-stc="1" data-st="1"><em class="iconfont">
+                            </em></span>
+
+                        <span title="淡绿色" class="theme-2 " data-stc="2" data-st="2"><em class="iconfont">
+                            </em></span>
+
+                        <span title="淡蓝色" class="theme-3 " data-stc="3" data-st="3"><em class="iconfont">
+                            </em></span>
+
+                        <span title="淡粉色" class="theme-4 " data-stc="4" data-st="4"><em class="iconfont">
+                            </em></span>
+
+                        <span title="灰色" class="theme-5 " data-stc="5" data-st="5"><em class="iconfont">
+                            </em></span>
+
+                        <span title="黑色" class="theme-6 " data-stc="6" data-st="6"><em class="iconfont">
+                            </em><cite class="iconfont"></cite></span>
+
+                    </li>
+                    <li class="font-family" id="j_fontFamily"><i>正文字体</i>
+
+                        <span data-st="0" class="yahei act">雅黑</span>
+
+                        <span data-st="1" class="yahei ">宋体</span>
+
+                        <span data-st="2" class="yahei ">楷书</span>
+
+                    </li>
+                    <li class="font-size" id="j_fontSize"><i>字体大小</i>
+                        <cite>
+                            <span class="prev"><em class="iconfont"></em></span><b></b>
+                            <span class="lang">18</span><b></b>
+                            <span class="next"><em class="iconfont"></em></span>
+                        </cite>
+                    </li>
+                    <li class="page-width" id="j_pageWidth">
+                        <i>页面宽度</i>
+                        <cite>
+
+                            <span class="prev"><em class="iconfont"></em></span><b></b>
+                            <span class="lang">800</span><b></b>
+                            <span class="next" å=""><em class="iconfont"></em></span>
+                        </cite>
+                    </li>
+                </ul>
+                <div class="btn-wrap dib-wrap">
+                    <a class="red-btn" id="j_setSave" href="javascript:">保存</a>
+                    <a class="grey-btn" id="j_setCancel" href="javascript:">取消</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/jquery-1.10.2.min.js"></script>
+<script>
+    $(function () {
+        $("#j_themeList span").click(function () {
+            var stcs = ['','#f3e9c6','#e2eee2','#e2eff3','#f5e4e4','#dcdcdc','#111']
+
+            $("#j_themeList span").removeClass("act");
+            $(this).addClass("act");
+            var stc = $(this).attr("data-stc");
+            if(stc == 6){
+                $("body").css("background",stcs[stc]);
+                $("a").css("color","#cccccc");
+                $(".left-bar-list dd a .iconfont").css("color","#cccccc");
+                $("body").css("color","#666");
+                $(".left-bar-list dd a i span").css("color","#cccccc");
+                $(".header .top-head").css("border","none");
+                $("body").css("background",stcs[stc]);
+            }else{
+                $("body").css("background",stcs[stc]);
+                $("a").css("color","#1a1a1a");
+                $(".left-bar-list dd a i span").css("color","#262626");
+                $(".left-bar-list dd a .iconfont").css("color","#262626");
+            }
+
+        })
+    })
+</script>
+
 <%@ include file="footer.jsp"%>
 </body>
 </html>
