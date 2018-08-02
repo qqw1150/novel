@@ -2,10 +2,12 @@ package com.luowenit.service;
 
 import com.luowenit.dao.UserDao;
 import com.luowenit.domain.User;
-import com.luowenit.domain.mapper.UserMapper;
-import org.apache.ibatis.session.SqlSession;
+import com.luowenit.domain.UserFiction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserService {
@@ -28,4 +30,19 @@ public class UserService {
         return userDao.getOneByUsername(username);
     }
 
+    public void addShelf(int user_id, int fiction_id, int chapter_id, int chapter_num) {
+        userDao.addShelf(user_id,fiction_id,chapter_id,chapter_num);
+    }
+
+    public void updateShelf(int user_id, int fiction_id, int chapter_id, int chapter_num) {
+        userDao.updateShelf(user_id,fiction_id,chapter_id,chapter_num);
+    }
+
+    public UserFiction getShelf(int user_id, int fiction_id, int chapter_id, int chapter_num) {
+        return userDao.getShelf(user_id,fiction_id,chapter_id,chapter_num);
+    }
+
+    public List<UserFiction> getShelfs(int user_id){
+        return userDao.getShelfs(user_id);
+    }
 }

@@ -11,6 +11,10 @@ public class Chapter implements Serializable {
     private Fiction fiction;
     private int fiction_id;
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public int getFiction_id() {
         return fiction_id;
     }

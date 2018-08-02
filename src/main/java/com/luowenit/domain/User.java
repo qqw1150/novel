@@ -20,6 +20,10 @@ public class User implements Serializable {
     @NotNull(message = "验证码不能为空")
     private String valicode;
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getValicode() {
         return valicode;
     }

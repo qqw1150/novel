@@ -1,6 +1,7 @@
 package com.luowenit.controller;
 
 import com.luowenit.domain.User;
+import com.luowenit.domain.UserFiction;
 import com.luowenit.domain.assist.UserValidator;
 import com.luowenit.service.UserService;
 import com.luowenit.utils.VerifyCode;
@@ -12,7 +13,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -104,6 +105,31 @@ public class UserController {
     @RequestMapping(value = "/to_login.do")
     public String to_login() {
         return "mobile/login";
+    }
+
+    @RequestMapping(value = "/prop.do")
+    public void addUserProperties(int fontSize, int pageWidth, int theme, String fontType, String pageBar, HttpSession session){
+        session.setAttribute("fontSize",fontSize);
+        session.setAttribute("pageWidth",pageWidth);
+        session.setAttribute("theme",theme);
+        session.setAttribute("fontType",fontType);
+        session.setAttribute("pageBar",pageBar);
+    }
+
+    @RequestMapping("/shelf.do")
+    public @ResponseBody String shelf(int fiction_id, int chapter_id, int chapter_num , HttpSession session){
+        User user = (User) session.getAttribute("user");
+        if(!Objects.isNull(user)){
+            UserFiction userFiction = userService.getShelf(user.getId(),fiction_id,chapter_id,chapter_num);
+            if(Objects.isNull(userFiction)){
+                userService.addShelf(user.getId(),fiction_id,chapter_id,chapter_num);
+            }else{
+                userService.updateShelf(user.getId(),fiction_id,chapter_id,chapter_num);
+            }
+            return "{'error':0,'msg':'加入成功'}";
+        }
+
+        return "{'error':1,'msg':'请先登录'}";
     }
 
 }

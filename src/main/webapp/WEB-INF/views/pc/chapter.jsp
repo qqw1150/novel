@@ -95,7 +95,7 @@
 <div class="left-bar-list" id="j_leftBarList" style="top: 140px;">
     <dl>
         <dd id="j_navCatalogBtn">
-            <a href="javascript:"><i><em class="iconfont"></em><span style="color: #262626;">目录</span></i></a>
+            <a href="/${chapter.fiction_id}/1/1/fiction.html"><i><em class="iconfont"></em><span style="color: #262626;">目录</span></i></a>
             <div class="guide-box">
                 <cite></cite>
                 目录
@@ -108,8 +108,8 @@
                 设置
             </div>
         </dd>
-        <dd>
-            <a class="add-book" href="javascript:" data-bookid="10112704904733103"><i><em class="iconfont"></em><span style="color: #262626;">书架</span></i></a>
+        <dd id="j_navAddBookBtn">
+            <a class="add-book" href="javascript:;" data-bookid="10112704904733103"><i><em class="iconfont"></em><span style="color: #262626;">书架</span></i></a>
             <div class="guide-box">
                 <cite></cite>
                 加入书架
@@ -165,7 +165,6 @@
                     <li class="page-width" id="j_pageWidth">
                         <i>页面宽度</i>
                         <cite>
-
                             <span class="prev"><em class="iconfont"></em></span><b></b>
                             <span class="lang">800</span><b></b>
                             <span class="next" å=""><em class="iconfont"></em></span>
@@ -183,6 +182,50 @@
 <script src="/js/jquery-1.10.2.min.js"></script>
 <script>
     $(function () {
+        $("#j_setting").hide();
+        var stcs = ['Microsoft YaHei', 'SimSun', 'KaiTi'];
+        var pageWidth = "${sessionScope.get('pageWidth')}" != "" ? "${sessionScope.get('pageWidth')}" : 800;
+        var pageBar = "${sessionScope.get('pageBar')}" != "" ? "${sessionScope.get('pageBar')}" : -468;
+        var fontSize = "${sessionScope.get('fontSize')}" != "" ? "${sessionScope.get('fontSize')}" : 18;
+        var fontType = "${sessionScope.get('fontType')}" != "" ? "${sessionScope.get('fontType')}" : 0;
+        var theme = parseInt("${sessionScope.get('theme')}" != "" ? "${sessionScope.get('theme')}" : 0);
+
+        $(".read-main-wrap").css("width",pageWidth+"px");
+        $(".left-bar-list").css("marginLeft",pageBar+"px");
+        $("#j_pageWidth .lang").text(pageWidth);
+        $(".read-content").css(fontSize+"px");
+        $("#j_fontSize .lang").text(fontSize);
+        $(".read-content").css("fontFamily",stcs[fontType]);
+        $("#j_fontFamily span").removeClass("act");
+        for(var i = 0 ;i<$("#j_fontFamily span").length;i++){
+            if($($("#j_fontFamily span")[i]).attr('data-st') == fontType){
+                $($("#j_fontFamily span")[i]).addClass('act');
+            }
+        }
+
+        var stcs = ['','#f3e9c6','#e2eee2','#e2eff3','#f5e4e4','#dcdcdc','#111']
+        if(theme == 6){
+            $("body").css("background",stcs[theme]);
+            $("a").css("color","#cccccc");
+            $(".left-bar-list dd a .iconfont").css("color","#cccccc");
+            $("body").css("color","#666");
+            $(".left-bar-list dd a i span").css("color","#cccccc");
+            $(".header .top-head").css("border","none");
+            $("body").css("background",stcs[theme]);
+        }else{
+            $("body").css("background",stcs[theme]);
+            $("a").css("color","#1a1a1a");
+            $(".left-bar-list dd a i span").css("color","#262626");
+            $(".left-bar-list dd a .iconfont").css("color","#262626");
+        }
+        $("#j_themeList span").removeClass("act");
+        for(var i = 0 ;i<$("#j_themeList span").length;i++){
+            if($($("#j_themeList span")[i]).attr('data-stc') == theme){
+                $($("#j_themeList span")[i]).addClass('act');
+            }
+        }
+
+
         $("#j_themeList span").click(function () {
             var stcs = ['','#f3e9c6','#e2eee2','#e2eff3','#f5e4e4','#dcdcdc','#111']
 
@@ -204,7 +247,100 @@
                 $(".left-bar-list dd a .iconfont").css("color","#262626");
             }
 
-        })
+        });
+
+        $("#j_fontFamily span").click(function () {
+            var stcs = ['Microsoft YaHei','SimSun','KaiTi'];
+            $("#j_fontFamily span").removeClass("act");
+            $(this).addClass("act");
+            $(".read-content").css("fontFamily",stcs[$(this).attr("data-st")])
+        });
+        
+        $("#j_fontSize .prev").click(function () {
+            if(parseInt($(".read-content").css("fontSize")) <= 12){
+                $(".read-content").css("fontSize","12px");
+            }else{
+                $(".read-content").css("fontSize",(parseInt($(".read-content").css("fontSize"))-2)+"px");
+            }
+            $("#j_fontSize .lang").text(parseInt($(".read-content").css("fontSize")));
+        });
+
+        $("#j_fontSize .next").click(function () {
+            if(parseInt($(".read-content").css("fontSize")) >= 48){
+                $(".read-content").css("fontSize","48px");
+            }else{
+                $(".read-content").css("fontSize",(parseInt($(".read-content").css("fontSize"))+2)+"px");
+            }
+            $("#j_fontSize .lang").text(parseInt($(".read-content").css("fontSize")));
+        });
+
+        $("#j_pageWidth .prev").click(function () {
+            if(parseInt($(".read-main-wrap").css("width")) <= 700){
+                $(".read-main-wrap").css("width","700px");
+            }else{
+                $(".read-main-wrap").css("width",(parseInt($(".read-main-wrap").css("width")) - 100)+"px");
+                $(".left-bar-list").css("marginLeft",(parseInt($(".left-bar-list").css("marginLeft")) + 50)+"px");
+            }
+            $("#j_pageWidth .lang").text(parseInt($(".read-main-wrap").css("width")));
+        });
+
+        $("#j_pageWidth .next").click(function () {
+            if(parseInt($(".read-main-wrap").css("width")) >= 1100){
+                $(".read-main-wrap").css("width","1000px");
+            }else{
+                $(".read-main-wrap").css("width",(parseInt($(".read-main-wrap").css("width")) + 100)+"px");
+                $(".left-bar-list").css("marginLeft",(parseInt($(".left-bar-list").css("marginLeft")) - 50)+"px");
+            }
+            $("#j_pageWidth .lang").text(parseInt($(".read-main-wrap").css("width")));
+        });
+
+        $("#j_setSave").click(function () {
+            var data={
+                'pageWidth': $("#j_pageWidth .lang").text(),
+                'fontSize': $("#j_fontSize .lang").text() ,
+                'fontType': $("#j_fontFamily span.act").attr('data-st'),
+                'theme': $("#j_themeList span.act").attr('data-stc') ,
+                'pageBar': parseInt($(".left-bar-list").css("marginLeft"))
+            };
+            $.ajax({
+                url: "/prop.html",
+                type: "get",
+                data:data,
+                dataType: 'json',
+                success: function (data) {
+
+                },
+                error: function () {
+                    console.log("出错了");
+                }
+            });
+            $("#j_setting").hide();
+        });
+
+        $("#j_navSettingBtn").click(function () {
+            $("#j_setting").show();
+        });
+        $("#j_setCancel").click(function () {
+            $("#j_setting").hide();
+        });
+
+        $("#j_navAddBookBtn").click(function () {
+            $.ajax({
+                url: "/shelf.html",
+                type: "post",
+                data:{'fiction_id':${chapter.fiction_id},'chapter_id':${chapter.id},'chapter_num':${chapter.num}},
+                dataType: 'json',
+                success: function (data) {
+                    if(!data.error){
+                        //打开登录界面
+                    }
+                    alert(data.msg);
+                },
+                error: function () {
+                    console.log("出错了");
+                }
+            });
+        });
     })
 </script>
 
