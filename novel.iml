@@ -2,21 +2,7 @@
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="Spring" name="Spring">
-      <configuration>
-        <fileset id="initializer com.luowenit.config.DispacherInitial root context" name="MVC dispatcher initializer root context" removed="true">
-          <file>file://$MODULE_DIR$/src/main/java/com/luowenit/config/RootConfig.java</file>
-        </fileset>
-        <fileset id="initializer com.luowenit.config.DispacherInitial servlet context" name="MVC dispatcher initializer servlet context" removed="true">
-          <dependency>initializer com.luowenit.config.DispacherInitial root context</dependency>
-          <file>file://$MODULE_DIR$/src/main/java/com/luowenit/config/WebConfig.java</file>
-        </fileset>
-        <fileset id="fileset2" name="Spring Application Context" removed="false">
-          <file>file://$MODULE_DIR$/src/main/java/com/luowenit/config/RootConfig.java</file>
-          <file>file://$MODULE_DIR$/src/main/java/com/luowenit/config/WebConfig.java</file>
-          <file>file://$MODULE_DIR$/src/main/config/applicationContext.xml</file>
-          <file>file://$MODULE_DIR$/src/main/config/dispatcher-servlet.xml</file>
-        </fileset>
-      </configuration>
+      <configuration />
     </facet>
     <facet type="web" name="Web">
       <configuration>
@@ -27,7 +13,6 @@
           <root url="file://$MODULE_DIR$/src/main/webapp" relative="/" />
         </webroots>
         <sourceRoots>
-          <root url="file://$MODULE_DIR$/src/main/config" />
           <root url="file://$MODULE_DIR$/src/main/java" />
         </sourceRoots>
       </configuration>
@@ -44,7 +29,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="PROVIDED" name="Tomcat 8.5.28" level="application_server_libraries" />
     <orderEntry type="library" name="Maven: junit:junit:4.12" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context:5.0.6.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-expression:5.0.6.RELEASE" level="project" />
@@ -112,5 +96,6 @@
     <orderEntry type="library" name="Maven: javax.validation:validation-api:2.0.1.Final" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.9.13" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.jackson:jackson-core-asl:1.9.13" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Tomcat 8.5.28" level="application_server_libraries" />
   </component>
 </module>

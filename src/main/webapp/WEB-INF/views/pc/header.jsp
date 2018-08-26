@@ -148,27 +148,30 @@
                 </div>
             </div>
             <ul>
-                <li><a class="head-shelf" href="javascript:"><em class="iconfont"></em>我的书架</a></li>
+                <li><a class="head-shelf" href="/1/to_shelf.html"><em class="iconfont"></em>我的书架</a></li>
             </ul>
         </div>
     </div>
-    <div class="top-nav-wrap box-center cf">
-        <div class="left-nav fl">
-            <ul class="cf" style="margin-left: 80px">
-                <li class=""><a href="/1/0/1/type.html">玄幻奇幻</a></li>
-                <li class=""><a href="/2/0/1/type.html">武侠仙侠</a></li>
-                <li class=""><a href="/3/0/1/type.html">女频言情</a></li>
-                <li class=""><a href="/4/0/1/type.html">现代都市</a></li>
-                <li class=""><a href="/5/0/1/type.html">历史军事</a></li>
-                <li class=""><a href="/6/0/1/type.html">游戏竞技</a></li>
-                <li class=""><a href="/7/0/1/type.html">科幻灵异</a></li>
-                <li class=""><a href="/8/0/1/type.html">美文同人</a></li>
-                <%--<core:forEach items="${FictionType.getAllType()}" var="type">
-                    <li class=""><a href="/${type.index}/0/1/type.html">${type.name}</a></li>
-                </core:forEach>--%>
-            </ul>
-        </div>
-    </div>
+        <core:if test="${empty param.get('isChapter')}">
+            <div class="top-nav-wrap box-center cf">
+                <div class="left-nav fl">
+                    <ul class="cf" style="margin-left: 80px">
+                        <li class=""><a href="/1/0/1/type.html">玄幻奇幻</a></li>
+                        <li class=""><a href="/2/0/1/type.html">武侠仙侠</a></li>
+                        <li class=""><a href="/3/0/1/type.html">女频言情</a></li>
+                        <li class=""><a href="/4/0/1/type.html">现代都市</a></li>
+                        <li class=""><a href="/5/0/1/type.html">历史军事</a></li>
+                        <li class=""><a href="/6/0/1/type.html">游戏竞技</a></li>
+                        <li class=""><a href="/7/0/1/type.html">科幻灵异</a></li>
+                        <li class=""><a href="/8/0/1/type.html">美文同人</a></li>
+                            <%--<core:forEach items="${FictionType.getAllType()}" var="type">
+                                <li class=""><a href="/${type.index}/0/1/type.html">${type.name}</a></li>
+                            </core:forEach>--%>
+                    </ul>
+                </div>
+            </div>
+        </core:if>
+
 </div>
 <div id="mlogin" class="Q_pop_box none" style="position: fixed; z-index: 2147483600; overflow: hidden; opacity: 1; top: 98.5px;">
     <div id="k2_login_pop" class="K2_POP">
@@ -248,7 +251,7 @@
     function showLogin() {
         var height=$(document.body).height();
         var width = $(document.body).width();
-        var html="<div id='bgcover' onclick='closeLogin()' style='width:"+width+"px;height: "+height+"px;background-color: #1A1A1A;opacity: 0.5;position: absolute;left: 0;top: 0;z-index: 100;'></div>";
+        var html="<div id='bgcover' onclick='closeLogin()' style='width:"+width+"px;height: "+height+"px;background-color: #1A1A1A;opacity: 0.5;position: absolute;left: 0;top: 0;z-index: 1000;'></div>";
         $(document.body).append(html);
         $("#mlogin").removeClass("none");
     }

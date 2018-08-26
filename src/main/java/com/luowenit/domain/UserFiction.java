@@ -11,8 +11,8 @@ public class UserFiction implements Serializable {
     private int id;
     private User user;
     private Fiction fiction;
-    private Chapter lastest; //读到哪一章了
-    private ReadStatus status; //阅读状态
+    private Chapter chapter; //读到哪一章了
+    private int top;
 
     public UserFiction() {
     }
@@ -27,8 +27,7 @@ public class UserFiction implements Serializable {
         Chapter chapter = new Chapter();
         chapter.setNumber(chapter_num);
         chapter.setId(chapter_id);
-        this.lastest = chapter;
-        this.status = ReadStatus.NotStart;
+        this.chapter = chapter;
     }
 
     public int getId() {
@@ -51,20 +50,34 @@ public class UserFiction implements Serializable {
         this.fiction = fiction;
     }
 
-    public Chapter getLastest() {
-        return lastest;
+    public Chapter getChapter() {
+        return chapter;
     }
 
-    public void setLastest(Chapter lastest) {
-        this.lastest = lastest;
+    public void setChapter(Chapter chapter) {
+        this.chapter = chapter;
     }
 
-    public ReadStatus getStatus() {
-        return status;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setStatus(ReadStatus status) {
-        this.status = status;
+    public int getTop() {
+        return top;
     }
 
+    public void setTop(int top) {
+        this.top = top;
+    }
+
+    @Override
+    public String toString() {
+        return "UserFiction{" +
+                "id=" + id +
+                ", user=" + user +
+                ", fiction=" + fiction +
+                ", chapter=" + chapter +
+                ", top=" + top +
+                '}';
+    }
 }

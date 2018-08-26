@@ -2,7 +2,10 @@ package com.luowenit.config;
 
 import com.luowenit.utils.http.HttpClientService;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import com.mchange.v2.c3p0.DataSources;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.TransactionIsolationLevel;
+import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +19,7 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import redis.clients.jedis.JedisPoolConfig;
 
+import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
 
 @Configuration
@@ -33,6 +37,12 @@ public class RootConfig implements EnvironmentAware{
         Resource res = new ClassPathResource("mybatis-config.xml");
         factoryBean.setConfigLocation(res);
         SqlSessionFactory factory = factoryBean.getObject();
+        return factory;
+    }
+
+    @Bean
+    public JdbcTransactionFactory jdbcTransactionFactory(DataSource dataSource){
+        JdbcTransactionFactory factory = new JdbcTransactionFactory();
         return factory;
     }
 

@@ -45,6 +45,10 @@ public class Pager {
 
     }
 
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
     public Pager(int pageIndex, int size) {
         this.pageIndex = pageIndex;
         this.size = size;

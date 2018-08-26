@@ -136,8 +136,10 @@ public class IndexController {
         Pager pager = (Pager) session.getAttribute("pager");
         if (Objects.isNull(pager)) {
             pager = new Pager(1, 10, "/" + type + "/" + status + "/#page#/type.html");
+            session.setAttribute("pager",pager);
         }
         pager.setPageIndex(page);
+        pager.setBaseUrl("/" + type + "/" + status + "/#page#/type.html");
 
         HashOperations<String, String, String> hash = redisTemplate.opsForHash();
         String rKey = redisKey.getKey(type+"_"+status);
@@ -175,8 +177,10 @@ public class IndexController {
         Pager pager = (Pager) session.getAttribute("pager");
         if (Objects.isNull(pager)) {
             pager = new Pager(1, 10, "/" + type + "/" + status + "/#page#/type.html");
+            session.setAttribute("pager",pager);
         }
         pager.setPageIndex(page);
+        pager.setBaseUrl("/" + type + "/" + status + "/#page#/type.html");
 
         HashOperations<String, String, String> hash = redisTemplate.opsForHash();
         String rKey = redisKey.getKey(type+"_"+status);
@@ -266,8 +270,10 @@ public class IndexController {
         Pager pager = (Pager) session.getAttribute("pager");
         if (Objects.isNull(pager)) {
             pager = new Pager(1, 10, "/" + id + "/#page#/" + orderBy + "/fiction.html");
+            session.setAttribute("pager",pager);
         }
         pager.setPageIndex(page);
+        pager.setBaseUrl("/" + id + "/#page#/" + orderBy + "/fiction.html");
         pager.setOrderBy(orderBy);
         pager.setSize(99);
         Fiction fiction = fictionService.getOne(id, pager, orderBy);
@@ -289,8 +295,10 @@ public class IndexController {
         Pager pager = (Pager) session.getAttribute("pager");
         if (Objects.isNull(pager)) {
             pager = new Pager(1, 10, "/" + id + "/#page#/fiction.html");
+            session.setAttribute("pager",pager);
         }
         pager.setPageIndex(page);
+        pager.setBaseUrl("/" + id + "/#page#/fiction.html");
         pager.setOrderBy(orderBy);
         pager.setSize(99);
         Fiction fiction = fictionService.getOne(id, pager, orderBy);
@@ -348,8 +356,10 @@ public class IndexController {
         Pager pager = (Pager) session.getAttribute("pager");
         if (Objects.isNull(pager)) {
             pager = new Pager(1, 10, "/#page#/search.html?title=" + title);
+            session.setAttribute("pager",pager);
         }
         pager.setPageIndex(page);
+        pager.setBaseUrl("/#page#/search.html?title=" + title);
 
         if (!isMobile(request)) {
             List<Fiction> hots = fictionService.getHots(6);
@@ -378,8 +388,10 @@ public class IndexController {
         Pager pager = (Pager) session.getAttribute("pager");
         if (Objects.isNull(pager)) {
             pager = new Pager(1, 10, "/#page#/search.html?title=" + title);
+            session.setAttribute("pager",pager);
         }
         pager.setPageIndex(page);
+        pager.setBaseUrl("/#page#/search.html?title=" + title);
 
         Map<String, Object> data = new HashMap<>();
 

@@ -181,6 +181,7 @@ public class Fiction implements Serializable{
         return "Fiction{" +
                 "id=" + id +
                 ", author='" + author + '\'' +
+                ", title='" + title + '\'' +
                 ", size=" + size +
                 ", intro='" + intro + '\'' +
                 ", cover='" + cover + '\'' +

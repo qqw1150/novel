@@ -32,7 +32,7 @@
     </style>
 </head>
 <body>
-<div class="header">
+<%--<div class="header">
     <div class="top-head box-center cf">
         <h1 class="logo" title="传阅小说网" style="background: none">
             <a href="/index.html"><img src="/image/logo2.png"/></a>
@@ -59,7 +59,10 @@
             </ul>
         </div>
     </div>
-</div>
+</div>--%>
+<jsp:include page="header.jsp">
+    <jsp:param value="true" name="isChapter"/>
+</jsp:include>
 <div class="crumbs-nav" data-l1="1">
     <a href="/index.html" target="_blank">首页</a><em class="iconfont"></em>
     <a href="/${chapter.fiction.type.index}/0/1/type.html" target="_blank" data-chanid="30013" id="j_chanId">${chapter.fiction.type.name}</a><em class="iconfont"></em>
@@ -117,7 +120,7 @@
         </dd>
     </dl>
     <div class="panel-wrap setting" id="j_setting" style="background: white">
-        <a class="iconfont close-panel setting-close" href="javascript:"></a>
+        <a class="iconfont close-panel setting-close" id="setting-close-btn" href="javascript:"></a>
         <div class="panel-box">
             <h4 class="lang">设置</h4>
             <div class="setting-list-wrap">
@@ -323,18 +326,22 @@
         $("#j_setCancel").click(function () {
             $("#j_setting").hide();
         });
+        $("#setting-close-btn").click(function () {
+            $("#j_setting").hide();
+        });
 
         $("#j_navAddBookBtn").click(function () {
             $.ajax({
                 url: "/shelf.html",
                 type: "post",
-                data:{'fiction_id':${chapter.fiction_id},'chapter_id':${chapter.id},'chapter_num':${chapter.num}},
+                data:{'fiction_id':${chapter.fiction_id},'chapter_id':${chapter.id},'chapter_num':${chapter.number}},
                 dataType: 'json',
                 success: function (data) {
                     if(!data.error){
-                        //打开登录界面
+                        //书架加入成功
+                        alert("成功加入书架");
                     }
-                    alert(data.msg);
+                    console.log(data.msg);
                 },
                 error: function () {
                     console.log("出错了");

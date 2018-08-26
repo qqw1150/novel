@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luowenit.domain.mapper.UserFictionMapper">
+    <update id="openTop" parameterType="int" flushCache="true">
+        UPDATE user_fiction SET top = 1 WHERE id = #{id}
+    </update>
+    <update id="cloesTop" flushCache="true" parameterType="int">
+        UPDATE  user_fiction SET top = 0 WHERE top = 1 AND user_id = #{userId};
+    </update>
+
+    <delete id="deleteById" parameterType="hashmap" flushCache="true" >
+        DELETE FROM user_fiction WHERE user_id = #{userId} and id = #{id}
+    </delete>
+
+    <select id="getAllByUser" resultMap="userFictionMap" parameterType="int" useCache="true">
+        SELECT
+            f.title as f_title,f.`status` as f_status,f.author as f_author,f.cover as f_cover,
+            c.`number` as c_number,c.`name` as c_name,
+            uf.id as uf_id,uf.fiction_id as uf_fiction_id,uf.user_id as uf_user_id,uf.chapter_id as uf_chapter_id,uf.top as uf_top FROM user_fiction as uf
+        LEFT JOIN fiction as f ON f.id = uf.fiction_id
+        LEFT JOIN chapter as c ON c.id = uf.chapter_id
+        WHERE uf.user_id = #{userId} and uf.top = 0 order by uf.id desc
+        <if test="pager != null">
+            LIMIT #{pager.index},#{pager.size}
+        </if>
+    </select>
+
+    <select id="getTotalByUser" resultType="java.lang.Integer">
+        SELECT count(id) FROM user_fiction WHERE user_id = #{userId} and top = 0;
+    </select>
+
+    <select id="getTop" resultMap="userFictionMap" parameterType="int">
+        SELECT
+            f.title as f_title,f.`status` as f_status,f.author as f_author,f.cover as f_cover,
+            c.`number` as c_number,c.`name` as c_name,
+            uf.id as uf_id,uf.fiction_id as uf_fiction_id,uf.user_id as uf_user_id,uf.chapter_id as uf_chapter_id,uf.top as uf_top FROM user_fiction as uf
+            LEFT JOIN fiction as f ON f.id = uf.fiction_id
+            LEFT JOIN chapter as c ON c.id = uf.chapter_id
+        WHERE uf.user_id = #{userId} and uf.top = 1
+    </select>
+
+    <resultMap id="userFictionMap" type="UserFiction">
+        <id property="id" column="uf_id"/>
+        <result property="top" column="uf_top"/>
+        <association property="fiction" javaType="Fiction">
+            <id property="id" column="uf_fiction_id"/>
+            <result property="author" column="f_author"/>
+            <result property="cover" column="f_cover"/>
+            <result property="title" column="f_title"/>
+            <result property="status" column="f_status"/>
+        </association>
+        <association property="chapter" javaType="Chapter">
+            <id property="id" column="uf_chapter_id"/>
+            <result property="name" column="c_name"/>
+            <result property="number" column="c_number"/>
+        </association>
+    </resultMap>
+</mapper>

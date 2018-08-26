@@ -33,4 +33,8 @@
         <from>^/(\d+)/js_search.html(.*?)</from>
         <to type="forward">/$1/js_search.do</to>
     </rule>
+    <rule>
+        <from>^/(\d+)/to_(\w+).html</from>
+        <to type="forward">/$1/to_$2.do</to>
+    </rule>
 </urlrewrite>

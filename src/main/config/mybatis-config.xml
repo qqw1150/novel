@@ -15,6 +15,7 @@
         <typeAlias type="com.luowenit.domain.assist.Size" alias="Size"/>
         <typeAlias type="com.luowenit.domain.assist.ReadStatus" alias="ReadStatus"/>
         <typeAlias type="com.luowenit.domain.User" alias="User"/>
+        <typeAlias type="com.luowenit.domain.UserFiction" alias="UserFiction"/>
     </typeAliases>
     <typeHandlers>
         <typeHandler handler="com.luowenit.domain.type.FictionStatusHandler" javaType="FictionStatus" jdbcType="TINYINT"/>
@@ -27,5 +28,6 @@
         <mapper resource="mapper/FictionMapper.xml"/>
         <mapper resource="mapper/ChapterMapper.xml"/>
         <mapper resource="mapper/UserMapper.xml"/>
+        <mapper resource="mapper/UserFictionMapper.xml"/>
     </mappers>
 </configuration>
