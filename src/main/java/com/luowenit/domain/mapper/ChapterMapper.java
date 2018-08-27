@@ -2,6 +2,7 @@ package com.luowenit.domain.mapper;
 
 import com.luowenit.domain.Chapter;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,4 +25,6 @@ public interface ChapterMapper {
     List<Chapter> getLatests(List<Integer> list);
 
     int getTotalByFiction(int fiction_id);
+
+    Chapter getLatest(int fiction_id);
 }

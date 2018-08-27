@@ -16,10 +16,10 @@ public class ChapterDaoTest {
     @Autowired
     ChapterDao chapterDao;
 
-    /*@Test
-    public void getOne() throws Exception {
-        Chapter chapter = chapterDao.getOneLazy(1);
-        System.out.println(chapter);
-    }*/
+    @Test
+    public void test() throws Exception {
+        Chapter latest = chapterDao.getLatest(2173);
+        System.out.println(latest);
+    }
 
 }

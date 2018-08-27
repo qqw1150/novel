@@ -30,16 +30,16 @@ public class UserService {
         return userDao.getOneByUsername(username);
     }
 
-    public void addShelf(int user_id, int fiction_id, int chapter_id, int chapter_num) {
-        userDao.addShelf(user_id,fiction_id,chapter_id,chapter_num);
+    public void addShelf(int user_id, int fiction_id, int chapter_id) {
+        userDao.addShelf(user_id,fiction_id,chapter_id);
     }
 
-    public void updateShelf(int user_id, int fiction_id, int chapter_id, int chapter_num) {
-        userDao.updateShelf(user_id,fiction_id,chapter_id,chapter_num);
+    public void updateShelf(int user_id, int fiction_id, int chapter_id) {
+        userDao.updateShelf(user_id,fiction_id,chapter_id);
     }
 
-    public UserFiction getShelf(int user_id, int fiction_id, int chapter_id, int chapter_num) {
-        return userDao.getShelf(user_id,fiction_id,chapter_id,chapter_num);
+    public UserFiction getShelf(int user_id, int fiction_id) {
+        return userDao.getShelf(user_id,fiction_id);
     }
 
     public List<UserFiction> getShelfs(int user_id){

@@ -1,5 +1,6 @@
 package com.luowenit.domain.mapper;
 
+import com.luowenit.domain.Chapter;
 import com.luowenit.domain.UserFiction;
 
 import java.util.HashMap;
@@ -16,4 +17,5 @@ public interface UserFictionMapper {
     UserFiction getTop(int userId);
 
     int deleteById(HashMap<String,Object> params);
+
 }

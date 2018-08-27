@@ -37,6 +37,8 @@ public class UserFictionDao {
         return userFictions;
     }
 
+
+
     public int getAllByUserTotal(int userId){
         SqlSession session = sqlSessionFactory.openSession();
         UserFictionMapper mapper = session.getMapper(UserFictionMapper.class);

@@ -58,14 +58,12 @@ public class UserDao {
     }
 
 
-    public UserFiction getShelf(int user_id, int fiction_id, int chapter_id, int chapter_num) {
+    public UserFiction getShelf(int user_id, int fiction_id) {
         SqlSession session = factory.openSession();
         UserMapper mapper = session.getMapper(UserMapper.class);
         HashMap<String, Object> params = new HashMap<>();
         params.put("user_id",user_id);
         params.put("fiction_id",fiction_id);
-        params.put("chapter_id",chapter_id);
-        params.put("chapter_num",chapter_num);
         UserFiction uf = mapper.getShelf(params);
         session.commit();
         session.close();
@@ -81,27 +79,25 @@ public class UserDao {
         return uf;
     }
 
-    public void addShelf(int user_id, int fiction_id, int chapter_id, int chapter_num) {
+    public void addShelf(int user_id, int fiction_id, int chapter_id) {
         SqlSession session = factory.openSession();
         UserMapper mapper = session.getMapper(UserMapper.class);
         HashMap<String, Object> params = new HashMap<>();
         params.put("user_id",user_id);
         params.put("fiction_id",fiction_id);
         params.put("chapter_id",chapter_id);
-        params.put("chapter_num",chapter_num);
         mapper.addShelf(params);
         session.commit();
         session.close();
     }
 
-    public void updateShelf(int user_id, int fiction_id, int chapter_id, int chapter_num) {
+    public void updateShelf(int user_id, int fiction_id, int chapter_id) {
         SqlSession session = factory.openSession();
         UserMapper mapper = session.getMapper(UserMapper.class);
         HashMap<String, Object> params = new HashMap<>();
         params.put("user_id",user_id);
         params.put("fiction_id",fiction_id);
         params.put("chapter_id",chapter_id);
-        params.put("chapter_num",chapter_num);
         mapper.updateShelf(params);
         session.commit();
         session.close();

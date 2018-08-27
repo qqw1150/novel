@@ -67,4 +67,8 @@
     <select id="getOneLazy" parameterType="hashmap" resultType="Chapter" useCache="true">
         SELECT * FROM chapter WHERE `number` = #{number} AND fiction_id = #{fiction_id}
     </select>
+
+    <select id="getLatest" parameterType="int" useCache="true" resultType="Chapter">
+        SELECT id,`name`,`number`,fiction_id FROM chapter WHERE fiction_id = #{fictionId} ORDER BY `number` DESC LIMIT 1
+    </select>
 </mapper>

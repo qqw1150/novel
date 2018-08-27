@@ -94,4 +94,13 @@ public class ChapterDao {
         session.close();
         return count;
     }
+
+    public Chapter getLatest(int fictionId){
+        SqlSession session = factory.openSession();
+        ChapterMapper mapper = session.getMapper(ChapterMapper.class);
+        Chapter chapter= mapper.getLatest(fictionId);
+        session.commit();
+        session.close();
+        return chapter;
+    }
 }

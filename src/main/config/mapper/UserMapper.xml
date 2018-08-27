@@ -16,20 +16,20 @@
     </select>
 
     <select id="getShelfs" useCache="true" parameterType="hashmap" resultType="com.luowenit.domain.UserFiction">
-        SELECT `id`,`user_id`,`fiction_id`,`lastest`,`chapter_id` FROM user_fiction
+        SELECT `id`,`user_id`,`fiction_id`,`chapter_id` FROM user_fiction
         WHERE user_id = #{user_id}
     </select>
 
     <select id="getShelf" useCache="true" parameterType="hashmap" resultType="com.luowenit.domain.UserFiction">
-        SELECT `id`,`user_id`,`fiction_id`,`lastest`,`chapter_id` FROM user_fiction
-        WHERE user_id = #{user_id} AND `fiction_id` = #{fiction_id} AND `chapter_id`=#{chapter_id} AND `lastest`=#{chapter_num}
+        SELECT `id`,`user_id`,`fiction_id`,`chapter_id` FROM user_fiction
+        WHERE user_id = #{user_id} AND `fiction_id` = #{fiction_id}
     </select>
 
     <insert id="addShelf" parameterType="hashmap" useGeneratedKeys="true" flushCache="true">
-        INSERT INTO user_fiction(`user_id`,`fiction_id`,`lastest`,`chapter_id`) VALUES (#{user_id},#{fiction_id},#{chapter_num},#{chapter_id})
+        INSERT INTO user_fiction(`user_id`,`fiction_id`,`chapter_id`) VALUES (#{user_id},#{fiction_id},#{chapter_id})
     </insert>
 
     <update id="updateShelf" flushCache="true" parameterType="hashmap">
-        UPDATE user_fiction SET `fiction_id` = #{fiction_id},`lastest`=#{chapter_num},`chapter_id`=#{chapter_id} WHERE id = #{id} AND user_id = #{user_id}
+        UPDATE user_fiction SET `chapter_id`=#{chapter_id} WHERE fiction_id = #{fiction_id} AND user_id = #{user_id}
     </update>
 </mapper>

@@ -80,8 +80,12 @@
                                         <label class="label">
                                             <div class="chapter">
                                                 <h4>
-                                                    <a href="/${top.fiction.id}/${top.chapter.number}/chapter.html" target="_blank">读至 ${top.chapter.name}</a>
+                                                    <span></span>
+                                                    <a href="/${top.fiction.id}/${top.fiction.latest.number}/chapter.html" target="_blank">更新至 ${top.fiction.latest.name}</a>
                                                 </h4>
+                                                <p>
+                                                    <a href="/${top.fiction.id}/${top.chapter.number}/chapter.html" target="_blank">读至 ${top.chapter.name}</a>
+                                                </p>
                                             </div>
                                         </label>
                                     </td>
@@ -125,8 +129,12 @@
                                             <label class="label">
                                                 <div class="chapter">
                                                     <h4>
-                                                        <a href="/${item.fiction.id}/${item.chapter.number}/chapter.html" target="_blank">读至 ${item.chapter.name}</a>
+                                                        <span></span>
+                                                        <a href="/${item.fiction.id}/${item.fiction.latest.number}/chapter.html" target="_blank">更新至 ${item.fiction.latest.name}</a>
                                                     </h4>
+                                                    <p>
+                                                        <a href="/${item.fiction.id}/${item.chapter.number}/chapter.html" target="_blank">读至 ${item.chapter.name}</a>
+                                                    </p>
                                                 </div>
                                             </label>
                                         </td>

@@ -136,15 +136,15 @@ public class UserController {
     public @ResponseBody String shelf(int fiction_id, int chapter_id, int chapter_num , HttpSession session){
         User user = (User) session.getAttribute("user");
         if(!Objects.isNull(user)){
-            UserFiction userFiction = userService.getShelf(user.getId(),fiction_id,chapter_id,chapter_num);
+            UserFiction userFiction = userService.getShelf(user.getId(),fiction_id);
             if(Objects.isNull(userFiction)){
-                userService.addShelf(user.getId(),fiction_id,chapter_id,chapter_num);
+                userService.addShelf(user.getId(),fiction_id,chapter_id);
             }else{
-                userService.updateShelf(user.getId(),fiction_id,chapter_id,chapter_num);
+                userService.updateShelf(user.getId(),fiction_id,chapter_id);
             }
-            return "{\"error\":0,\"msg\":\"加入成功\"}";
+            return "{\"error\":\"0\",\"msg\":\"加入成功\"}";
         }
-        return "{\"error\":1,\"msg\":\"请先登录\"}";
+        return "{\"error\":\"1\",\"msg\":\"请先登录\"}";
     }
 
     @RequestMapping(value = "/{page}/to_shelf.do")
@@ -180,7 +180,11 @@ public class UserController {
 
         }
 
-        return "pc/shelf";
+        if (!isMobile(request)) {
+            return "pc/shelf";
+        } else {
+            return "mobile/shelf";
+        }
     }
 
     @RequestMapping(value = "/setTop.do")
